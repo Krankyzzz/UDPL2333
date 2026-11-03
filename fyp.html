@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Final Year Project Resources</title>
+<meta name="robots" content="noindex">
 <meta name="description" content="Guides, forms, templates and documents for the Final Year Project.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,17 +15,29 @@
 <body>
 <nav><div class="wrap">
   <a class="brand" href="fyp.html#top">FYP<span>.</span></a>
-  <a class="lnk" href="#journey">Journey</a>
-  <a class="lnk" href="#resources">Resources</a>
-  <a class="lnk" href="#dates">Dates</a>
-  <a class="lnk" href="#report">Report</a>
-  <a class="lnk" href="#faq">FAQ</a>
+  <a class="lnk" href="#journey" hidden>Journey</a>
+  <a class="lnk" href="#resources" hidden>Resources</a>
+  <a class="lnk" href="#dates" hidden>Dates</a>
+  <a class="lnk" href="#report" hidden>Report</a>
+  <a class="lnk" href="#faq" hidden>FAQ</a>
   <a class="lnk" href="index.html">&larr; Course site</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
 </div></nav>
 
+<div id="gate" style="padding:90px 22px;max-width:480px;margin:0 auto">
+  <div class="panel">
+    <h2 style="font-size:30px;margin-bottom:10px">🔒 Students only</h2>
+    <p style="color:var(--muted);margin:0 0 18px">Enter the password your lecturer gave you to open the FYP resources.</p>
+    <form id="gf">
+      <input class="search" id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" style="margin-bottom:12px">
+      <button class="cta" type="submit" style="border:0;cursor:pointer;font:inherit;font-weight:600;margin:0">Unlock</button>
+      <p id="gerr" class="note" hidden>Incorrect password. Please try again.</p>
+    </form>
+  </div>
+</div>
+<div id="app" hidden>
 <header class="hero" id="top"><div class="wrap">
-  <span class="code">Final Year Project</span>
+  <span class="code">UDPL3246 Research Project</span>
   <h1>Everything you need for your FYP</h1>
   <p class="lead">Guides on how to plan and run your project, how to write the report, plus the forms, templates and other documents you will need along the way.</p>
   <div class="btns"><a class="cta" href="#resources">Browse documents</a><a class="cta alt" href="index.html">&larr; Back to UDPL2333</a></div>
@@ -61,18 +74,22 @@
   <div class="faq" id="faqList"></div>
 </div></section>
 </main>
+</div>
 
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script>
 /* ============================================================
    EDIT THIS SECTION ONLY.
-   Upload files to the /fyp folder in your repo, then set u:"fyp/your-file.pdf".
+   Upload files to the /fyp folder in your repo, then set u:"fyp/your-file.pdf". Spaces and symbols in filenames are fine; the page handles them.
    Leave u:"" for a "Coming soon" card. Links starting with https:// also work.
    To add a document: copy one line inside a list and change it.
    To add a new category: copy a whole { name, items } block.
    ============================================================ */
 const CONTACT = "rizuans@utar.edu.my";
+// Password gate. To change the password, use password-tool.html and paste the result here.
+const SALT = "udpl2333-fyp|";
+const PASS_HASH = "249bc938367c973e019500716bcbc732a9008d033e8386a69c0669f6c5e36170";
 
 const JOURNEY = [
   ["Choose a topic", "Find a problem you care about. Check it is specific, researchable and doable in the time given."],
@@ -85,30 +102,27 @@ const JOURNEY = [
 
 const SECTIONS = [
   { name:"Guides", items:[
-    {t:"FYP handbook", d:"Rules, timeline, supervision and assessment.", u:"", s:"PDF"},
-    {t:"How to choose and scope a topic", d:"Turn an idea into a doable project.", u:"", s:"PDF"},
-    {t:"How to write a literature review", d:"Searching, reading and synthesising sources.", u:"", s:"PDF"},
-    {t:"Data collection and analysis guide", d:"Planning surveys, counts and analysis.", u:"", s:"PDF"} ]},
-  { name:"Report writing", items:[
-    {t:"Report writing guide", d:"What goes in each chapter and how to write it.", u:"", s:"PDF"},
-    {t:"Citation and referencing guide", d:"Citing sources and avoiding plagiarism.", u:"", s:"PDF"},
-    {t:"Formatting requirements", d:"Margins, fonts, figures, tables and page numbers.", u:"", s:"PDF"} ]},
+    {t:"FYP report guide", d:"Faculty of Science project report guide: format and chapter requirements.", u:"fyp/FYP Report Guide v7_Jan18.pdf", s:"PDF"},
+    {t:"How to write a thesis (framework)", d:"One-page framework in Malay for structuring your argument.", u:"fyp/Cara tulis thesis by Ts Khairul.pdf", s:"PDF"},
+    {t:"How to write a problem statement", d:"Describe the ideal, the problem and its impact.", u:"fyp/How to Write Problem Statement.pdf", s:"PDF"},
+    {t:"How to construct a research objective", d:"Strong action verbs for writing objectives.", u:"fyp/3. How Construct Research Objective.pdf", s:"PDF"},
+    {t:"Research objective examples", d:"Examples of formulating research aims and objectives.", u:"fyp/5. Research Objective.docx", s:"DOCX"},
+    {t:"Abstract example", d:"A published journal article to see how an abstract is written.", u:"fyp/Abstract.pdf", s:"PDF"} ]},
+  { name:"Research tools", items:[
+    {t:"Free journal databases", d:"Where to find papers without a paywall.", u:"fyp/Free Journal Database.pdf", s:"PDF"},
+    {t:"Best online survey tools", d:"Compare tools for building your questionnaire.", u:"fyp/Best Online Survey.docx", s:"DOCX"},
+    {t:"Google Scholar", d:"Search academic papers.", u:"https://scholar.google.com", s:"Link"},
+    {t:"Zotero", d:"Free reference manager.", u:"https://www.zotero.org", s:"Link"} ]},
   { name:"Forms", items:[
-    {t:"Topic proposal form", d:"Submit your proposed title and supervisor.", u:"", s:"DOCX"},
-    {t:"Supervision meeting log", d:"Record every meeting and what was agreed.", u:"", s:"DOCX"},
-    {t:"Ethics approval form", d:"Needed if you involve people in your study.", u:"", s:"DOCX"},
-    {t:"Originality declaration", d:"Confirm that the work is your own.", u:"", s:"DOCX"} ]},
-  { name:"Templates", items:[
-    {t:"Proposal template", d:"Ready-made headings and layout.", u:"", s:"DOCX"},
-    {t:"Final report template", d:"Pre-formatted report with styles set up.", u:"", s:"DOCX"},
-    {t:"Presentation slide template", d:"For your viva or final presentation.", u:"", s:"PPTX"},
-    {t:"Poster template", d:"If a poster is part of your assessment.", u:"", s:"PPTX"} ]},
+    {t:"Record of meeting with supervisor", d:"Fill in after every meeting and get it approved.", u:"fyp/Record of Meeting with Supervisor Form.docx", s:"DOCX"},
+    {t:"Ethical clearance application", d:"Required when your study involves human subjects.", u:"fyp/FM-IPSR-R&D-078-App-Ethical-Clearance-Involve-Human-Subjects-for-Undergraduate-Student-Group Application.doc", s:"DOC"},
+    {t:"Examiner comments form (FYP1)", d:"The form examiners use to give comments on your FYP1.", u:"fyp/UDPL3246 Form_Examiner Comments_FYP1_.docx", s:"DOCX"} ]},
+  { name:"Templates and samples", items:[
+    {t:"FYP1 report template", d:"Chapter headings for your FYP1 report.", u:"fyp/FYP1 Template for Reporting.docx", s:"DOCX"},
+    {t:"Completed FYP sample", d:"A full past project report (100 pages) to see the standard.", u:"fyp/Completed FYP Sample.pdf", s:"PDF"},
+    {t:"Sample of ethical clearance", d:"A filled-in ethical clearance summary.", u:"fyp/Sample of Ethical Clearance.docx", s:"DOCX"} ]},
   { name:"Other documents", items:[
-    {t:"FYP marking rubric", d:"How the proposal, report and presentation are graded.", u:"", s:"PDF"},
-    {t:"Sample reports", d:"Examples of good past projects.", u:"", s:"PDF"},
-    {t:"Supervisor list and research areas", d:"Who supervises which topics.", u:"", s:"PDF"},
-    {t:"Useful tools: Google Scholar", d:"Search academic papers.", u:"https://scholar.google.com", s:"Link"},
-    {t:"Useful tools: Zotero", d:"Free reference manager.", u:"https://www.zotero.org", s:"Link"} ]}
+    {t:"UDPL3246 Research Project course plan", d:"Synopsis, learning outcomes and assessment.", u:"fyp/UDPL3246.pdf", s:"PDF"} ]}
 ];
 
 const DATES = [
@@ -150,6 +164,7 @@ const FAQ = [
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
+function boot(){
 $("steps").innerHTML = JOURNEY.map(([a,b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("");
 
 $("docs").innerHTML = SECTIONS.map(sec => `
@@ -157,7 +172,8 @@ $("docs").innerHTML = SECTIONS.map(sec => `
 <div class="docs">${sec.items.map(r => {
   const inner = `<b>${esc(r.t)}</b><p>${esc(r.d || "")}</p><em>${r.u ? esc(r.s || "File") : "Coming soon"}</em>`;
   const ext = /^https?:/.test(r.u);
-  return r.u ? `<a class="doc" href="${esc(r.u)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${inner}</a>` : `<div class="doc off">${inner}</div>`;
+  const href = ext ? r.u : r.u.split("/").map(encodeURIComponent).join("/");
+  return r.u ? `<a class="doc" href="${esc(href)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${inner}</a>` : `<div class="doc off">${inner}</div>`;
 }).join("")}</div></div>`).join("");
 
 $("q").addEventListener("input", e => {
@@ -173,11 +189,29 @@ $("check").innerHTML = CHECKLIST.map(x => `<li>${esc(x)}</li>`).join("");
 $("faqList").innerHTML = FAQ.map(([q,a]) => `<details><summary>${esc(q)}</summary><p>${a}</p></details>`).join("");
 $("foot").innerHTML = `Final Year Project resources. <a href="index.html">Back to UDPL2333</a>. Questions? Email <a href="mailto:${CONTACT}">${CONTACT}</a>.`;
 
+}
+
 const root = document.documentElement, btn = $("theme");
 let saved = null; try { saved = localStorage.getItem("theme"); } catch(e){}
 const setTheme = m => { root.dataset.theme = m; btn.textContent = m === "dark" ? "☀️" : "🌙"; };
 setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
 btn.onclick = () => { const m = root.dataset.theme === "dark" ? "light" : "dark"; setTheme(m); try{ localStorage.setItem("theme", m); }catch(e){} };
+
+// ---- password gate (a convenience lock, not real security) ----
+const sha = async t => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(SALT + t)))].map(x => x.toString(16).padStart(2,"0")).join("");
+function unlock(){
+  $("gate").hidden = true; $("app").hidden = false;
+  document.querySelectorAll('nav a.lnk[href^="#"]').forEach(a => a.hidden = false);
+  boot();
+}
+$("gf").addEventListener("submit", async e => {
+  e.preventDefault();
+  if(!(window.crypto && crypto.subtle)){ $("gerr").textContent = "Your browser can't check passwords on this page. Try another browser."; $("gerr").hidden = false; return; }
+  const h = await sha($("pw").value);
+  if(h === PASS_HASH){ try{ sessionStorage.setItem("fyp", h); }catch(_){} unlock(); }
+  else { $("gerr").hidden = false; $("pw").select(); }
+});
+try{ if(sessionStorage.getItem("fyp") === PASS_HASH) unlock(); }catch(_){}
 </script>
 </body>
 </html>

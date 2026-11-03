@@ -19,7 +19,6 @@
   <a class="lnk" href="#about">About</a>
   <a class="lnk" href="#assessment">Assessment</a>
   <a class="lnk" href="#references">References</a>
-  <a class="lnk" href="fyp.html">FYP</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
 </div></nav>
 
@@ -29,7 +28,6 @@
   <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and topic quizzes. Pick a station on the route below to jump to that topic.</p>
   <div class="facts" id="facts"></div>
   <div class="week" id="week" aria-live="polite" hidden></div>
-  <a class="cta" href="fyp.html">Final Year Project resources &rarr;</a>
   <div class="route" aria-label="Course topics"><ol id="route"></ol></div>
 </div></header>
 
@@ -71,6 +69,16 @@
   </div>
   <h3 style="font:800 26px var(--head);margin:40px 0 18px">Assessment papers and rubrics</h3>
   <div class="grid2" id="assessList"></div>
+</div></section>
+
+<section id="fyp"><div class="wrap">
+  <div class="panel" style="display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between">
+    <div style="flex:1 1 320px">
+      <h3>🔒 Final Year Project resources</h3>
+      <p style="margin:0;color:var(--muted)">Guides, forms, templates and sample reports for your FYP. For my students only: you need the password I gave you.</p>
+    </div>
+    <a class="cta" href="fyp.html" style="margin:0">Open FYP resources &rarr;</a>
+  </div>
 </div></section>
 
 <section id="references"><div class="wrap">
@@ -210,7 +218,8 @@ function item(r, k){
   if(!r.u) return `<li class="soon">${esc(r.t)}: coming soon</li>`;
   const ext = /^https?:/.test(r.u);
   const label = k === "quiz" ? "Google Form" : (r.s || "File");
-  return `<li><a class="res" href="${esc(r.u)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${esc(r.t)}<small>${esc(label)}</small></a></li>`;
+  const href = ext ? r.u : r.u.split("/").map(encodeURIComponent).join("/");
+  return `<li><a class="res" href="${esc(href)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${esc(r.t)}<small>${esc(label)}</small></a></li>`;
 }
 $("topics").innerHTML = TOPICS.map((t,i) => `
 <article class="stop" id="topic${i+1}" data-n="${i+1}">
