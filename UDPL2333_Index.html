@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UDPL2333 Transport Planning and Demand Analysis</title>
+<meta name="description" content="Lecture slides, tutorials, self-study materials and quizzes for UDPL2333 Transport Planning and Demand Analysis.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f8f7; --surface:#ffffff; --ink:#14202b; --muted:#566673; --line:#d7e0dd;
+  --green:#00835a; --green-soft:#dff3ea; --blue:#2458e6; --amber:#f2a900; --amber-soft:#fff2cc;
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif; --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0e1519; --surface:#16212a; --ink:#e8f0ee; --muted:#9db0ba; --line:#28363f;
+  --green:#3ddc9f; --green-soft:#123327; --blue:#7ea0ff; --amber:#ffc83d; --amber-soft:#3a2f0b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
+.brand{font:800 18px var(--head);text-decoration:none;margin-right:auto}
+.brand span{color:var(--green)}
+nav a.lnk{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500}
+nav a.lnk:hover{color:var(--ink)}
+#theme{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:16px}
+@media(max-width:700px){nav a.lnk{display:none}}
+
+/* hero */
+.hero{padding:64px 0 36px}
+.code{display:inline-block;background:var(--green);color:#fff;font:600 14px var(--body);padding:4px 12px;border-radius:6px;margin-bottom:18px}
+:root[data-theme="dark"] .code{color:#06231a}
+.hero h1{font-size:clamp(38px,7vw,72px);font-weight:800;letter-spacing:-.02em;max-width:14ch}
+.hero p.lead{max-width:60ch;color:var(--muted);font-size:18px;margin:20px 0 26px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
+.facts b{display:block;color:var(--ink);font-size:16px}
+
+/* route strip */
+.route{margin-top:44px;padding:26px 0 8px;overflow-x:auto}
+.route ol{list-style:none;margin:0;padding:0;display:flex;min-width:640px;position:relative}
+.route ol::before{content:"";position:absolute;left:5%;right:5%;top:13px;height:8px;background:var(--green);border-radius:4px}
+.route li{flex:1;text-align:center;position:relative}
+.route a{text-decoration:none;display:block;font-size:13px;font-weight:500;padding:0 6px}
+.route i{display:block;width:30px;height:30px;margin:0 auto 10px;border-radius:50%;background:var(--surface);border:6px solid var(--ink);transition:transform .2s,border-color .2s}
+.route a:hover i{transform:scale(1.25);border-color:var(--amber)}
+
+/* sections */
+section{padding:48px 0}
+.sec-h{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:26px}
+.sec-h h2{font-size:clamp(28px,4vw,40px);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px var(--body);padding:6px 14px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* topics as stations on a line */
+.line{position:relative;padding-left:56px}
+.line::before{content:"";position:absolute;left:17px;top:18px;bottom:18px;width:8px;background:var(--green);border-radius:4px}
+.stop{position:relative;margin-bottom:22px}
+.stop::before{content:attr(data-n);position:absolute;left:-56px;top:2px;width:42px;height:42px;border-radius:50%;background:var(--surface);border:6px solid var(--ink);display:grid;place-items:center;font:800 15px var(--head);box-sizing:border-box;margin-left:-1px}
+.stop details{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.stop summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;gap:14px;align-items:center}
+.stop summary::-webkit-details-marker{display:none}
+.stop summary h3{font-size:21px;font-weight:600;flex:1}
+.stop summary::after{content:"+";font:600 24px var(--head);color:var(--green);transition:transform .2s}
+.stop details[open] summary::after{transform:rotate(45deg)}
+.tag{font-size:12px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--amber-soft);color:var(--ink);white-space:nowrap}
+.body{padding:0 22px 22px;border-top:1px solid var(--line)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px;color:var(--muted);margin:16px 0 8px}
+.pts{margin:0 0 18px;padding-left:18px;color:var(--muted);font-size:15px;columns:2 260px}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.g{border-left:4px solid var(--c);padding:2px 0 2px 14px}
+.g h4{margin:0 0 8px;font:600 15px var(--body)}
+.g[data-k=slides]{--c:var(--blue)} .g[data-k=tut]{--c:var(--green)} .g[data-k=self]{--c:var(--amber)} .g[data-k=quiz]{--c:#d6455d}
+.g ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.res{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:14.5px;padding:7px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+.res:hover{border-color:var(--c);background:var(--surface)}
+.res small{margin-left:auto;color:var(--muted);font-size:12px}
+.soon{color:var(--muted);font-size:14px;font-style:italic}
+.hide{display:none!important}
+
+/* info */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.panel h3{font-size:22px;margin-bottom:12px}
+.clo{display:flex;gap:12px;margin:12px 0}
+.clo b{flex:none;background:var(--green-soft);color:var(--green);border-radius:6px;padding:1px 9px;height:fit-content;font-size:14px}
+.bar{display:flex;height:44px;border-radius:10px;overflow:hidden;margin:12px 0;font-weight:600;font-size:14px}
+.bar div{display:grid;place-items:center;flex:1}
+.bar .a{background:var(--blue);color:#fff}.bar .b{background:var(--ink);color:var(--bg)}
+.note{background:var(--amber-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
+.ann{list-style:none;padding:0;margin:0}
+.ann li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ann li:last-child{border:0}
+.ann time{flex:none;font-weight:600;font-size:14px;color:var(--green);min-width:84px}
+.refs{padding-left:20px;margin:0}.refs li{margin:8px 0;font-size:15px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#top">UDPL<span>2333</span></a>
+  <a class="lnk" href="#materials">Materials</a>
+  <a class="lnk" href="#updates">Updates</a>
+  <a class="lnk" href="#about">About</a>
+  <a class="lnk" href="#assessment">Assessment</a>
+  <a class="lnk" href="#references">References</a>
+  <button id="theme" aria-label="Toggle dark mode">🌙</button>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <span class="code">UDPL2333</span>
+  <h1>Transport Planning and Demand Analysis</h1>
+  <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and topic quizzes. Pick a station on the route below to jump to that topic.</p>
+  <div class="facts" id="facts"></div>
+  <div class="route" aria-label="Course topics"><ol id="route"></ol></div>
+</div></header>
+
+<main>
+<section id="materials"><div class="wrap">
+  <div class="sec-h">
+    <h2>Course materials</h2>
+    <div class="chips" id="filters" role="group" aria-label="Filter materials"></div>
+  </div>
+  <div class="line" id="topics"></div>
+</div></section>
+
+<section id="updates"><div class="wrap">
+  <div class="sec-h"><h2>Announcements</h2></div>
+  <div class="panel"><ul class="ann" id="ann"></ul></div>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <div class="sec-h"><h2>About this course</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>Synopsis</h3><p id="syn" style="margin:0;color:var(--muted)"></p></div>
+    <div class="panel"><h3>What you will be able to do</h3><div id="clos"></div></div>
+  </div>
+</div></section>
+
+<section id="assessment"><div class="wrap">
+  <div class="sec-h"><h2>Assessment and passing</h2></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Marks breakdown</h3>
+      <div class="bar"><div class="a">Continuous 50%</div><div class="b">Final exam 50%</div></div>
+      <p style="margin:0;color:var(--muted);font-size:15px">Continuous assessment covers assignments, tests and quizzes.</p>
+    </div>
+    <div class="panel">
+      <h3>Pass requirements</h3>
+      <p style="margin:0;color:var(--muted);font-size:15px">Score at least 40% in continuous assessment, at least 40% in the final exam, and at least 50% overall.</p>
+      <div class="note"><b>Important:</b> a score of 39% or below in either component is an automatic Fail (F), whatever your overall mark.</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="references"><div class="wrap">
+  <div class="sec-h"><h2>References</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>Main</h3><ol class="refs" id="refMain"></ol></div>
+    <div class="panel"><h3>Additional</h3><ol class="refs" id="refMore" start="3"></ol></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script>
+/* ============================================================
+   EDIT THIS SECTION ONLY — everything on the page is built from it.
+   To add a file: upload it to the /materials folder in your repo,
+   then add { t:"Title", u:"materials/topic1-slides.pptx", s:"PPTX" } to a list.
+   Leave u:"" and the item shows as a "Coming soon" placeholder.
+   Quiz links: paste your Google Form link into the quiz list.
+   ============================================================ */
+const COURSE = {
+  lecturer: "Khairul Rizuan bin Suliman",
+  trimester: "Trimester 2, Year 2",
+  credit: "3 credit hours",
+  type: "Major course",
+  contact: "your.email@university.edu.my",   // change me
+  synopsis: "Learn the principles of transport planning and the demand analysis techniques behind them. The course covers transportation issues, objectives, procedures, analytical modelling, policy, environmental considerations, information management and decision making, using case studies on passenger and freight transport and on urban and intercity travel.",
+  clos: [
+    ["CLO 1","Explain issues, objectives, procedures and basic concepts in transportation planning."],
+    ["CLO 2","Conduct experiments using theory and analytical modelling."],
+    ["CLO 3","Analyse policy, environment, information and decision making in transportation planning."]
+  ]
+};
+
+const ANNOUNCEMENTS = [
+  { d:"Week 1", t:"Welcome to UDPL2333. Slides for Topic 1 will be posted here before the first lecture." }
+  // { d:"12 Nov", t:"Quiz 1 is now open until Friday." },
+];
+
+const TOPICS = [
+  { title:"Context and History of Urban Transportation Planning", clo:"CLO 1", L:9, T:3,
+    pts:["Definition of urban transportation planning","A multimodal perspective","A changing society and its impact","Transportation and telecommunication","Intelligent transportation systems (ITS)","Planning framework and process"],
+    slides:[{t:"Topic 1 lecture slides", u:"", s:"PPTX"}],
+    tut:[{t:"Topic 1 tutorial", u:"", s:"PDF"}],
+    self:[{t:"Topic 1 self-study notes", u:"", s:"PDF"}],
+    quiz:[{t:"Topic 1 quiz", u:""}] },
+  { title:"Characteristics of Travel", clo:"CLO 1, 2", L:6, T:2,
+    pts:["Temporal, spatial and modal distribution of trip making","Transportation from a systems perspective","Transportation system impacts","Land use–transportation interaction"],
+    slides:[{t:"Topic 2 lecture slides", u:"", s:"PPTX"}],
+    tut:[{t:"Topic 2 tutorial", u:"", s:"PDF"}],
+    self:[{t:"Topic 2 self-study notes", u:"", s:"PDF"}],
+    quiz:[{t:"Topic 2 quiz", u:""}] },
+  { title:"Data Management and Use in Decision Making", clo:"CLO 2", L:6, T:2,
+    pts:["Transportation planning database","Transportation system and user data","Community vision and goals"],
+    slides:[{t:"Topic 3 lecture slides", u:"", s:"PPTX"}],
+    tut:[{t:"Topic 3 tutorial", u:"", s:"PDF"}],
+    self:[{t:"Topic 3 self-study notes", u:"", s:"PDF"}],
+    quiz:[{t:"Topic 3 quiz", u:""}] },
+  { title:"Demand Forecasting and Modeling", clo:"CLO 2, 3", L:9, T:2,
+    pts:["Advanced travel behaviour analysis","Emerging mobility trends","Scenario planning and uncertainty analysis","Spatial analysis and GIS","Behavioural economics in demand modelling"],
+    slides:[{t:"Topic 4 lecture slides", u:"", s:"PPTX"}],
+    tut:[{t:"Topic 4 tutorial", u:"", s:"PDF"}],
+    self:[{t:"Topic 4 self-study notes", u:"", s:"PDF"}],
+    quiz:[{t:"Topic 4 quiz", u:""}] },
+  { title:"Public Transport Planning", clo:"CLO 3", L:2, T:1,
+    pts:["Transit network design and optimisation","Integration of emerging mobility services","User-centric design and accessibility","Fare structure and pricing strategies"],
+    slides:[{t:"Topic 5 lecture slides", u:"", s:"PPTX"}],
+    tut:[{t:"Topic 5 tutorial", u:"", s:"PDF"}],
+    self:[{t:"Topic 5 self-study notes", u:"", s:"PDF"}],
+    quiz:[{t:"Topic 5 quiz", u:""}] }
+];
+
+const REFS_MAIN = [
+  "Görkem Gülhan and Olcay Polat (2024). Interdisciplinary Approaches to Transportation and Urban Planning. IGI Global.",
+  "Lucy Budd, Stephen Ison and Maria Attard (2025). The Routledge Handbook of Sustainable Urban Transport. Routledge/Taylor & Francis."
+];
+const REFS_MORE = [
+  "Todd Litman (2021). New Mobilities: Smart Planning for Emerging Transportation Technologies. Island Press.",
+  "Michael D. Meyer (2016). Transportation Planning Handbook, 4th ed. Wiley.",
+  "Graham Currie (2021). Handbook of Public Transport Research. Edward Elgar Publishing.",
+  "Janic, M. (2017). Transport Systems: Modelling, Planning and Evaluation. Taylor & Francis Group."
+];
+/* ===================== end of editable section ===================== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// header facts
+$("facts").innerHTML = [["Lecturer",COURSE.lecturer],["Offered",COURSE.trimester],["Credit",COURSE.credit],["Type",COURSE.type]]
+  .map(([a,b]) => `<div>${a}<b>${esc(b)}</b></div>`).join("");
+
+// route strip
+$("route").innerHTML = TOPICS.map((t,i) => `<li><a href="#topic${i+1}"><i></i>Topic ${i+1}</a></li>`).join("");
+
+// resource groups
+const GROUPS = [["slides","Lecture slides"],["tut","Tutorials"],["self","Self-study"],["quiz","Quizzes"]];
+function item(r, k){
+  if(!r.u) return `<li class="soon">${esc(r.t)}: coming soon</li>`;
+  const ext = /^https?:/.test(r.u);
+  const label = k === "quiz" ? "Google Form" : (r.s || "File");
+  return `<li><a class="res" href="${esc(r.u)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${esc(r.t)}<small>${esc(label)}</small></a></li>`;
+}
+$("topics").innerHTML = TOPICS.map((t,i) => `
+<article class="stop" id="topic${i+1}" data-n="${i+1}">
+  <details ${i===0?"open":""}>
+    <summary><h3>${esc(t.title)}</h3><span class="tag">${esc(t.clo)}</span></summary>
+    <div class="body">
+      <div class="meta"><span>Lecture: ${t.L} hours</span><span>Tutorial: ${t.T} hours</span></div>
+      <ul class="pts">${t.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+      <div class="groups">${GROUPS.map(([k,name]) => `
+        <div class="g" data-k="${k}"><h4>${name}</h4><ul>${(t[k]||[]).map(r=>item(r,k)).join("") || '<li class="soon">Nothing yet</li>'}</ul></div>`).join("")}
+      </div>
+    </div>
+  </details>
+</article>`).join("");
+
+// filters
+$("filters").innerHTML = [["all","All"],...GROUPS].map(([k,n],i) => `<button class="chip" data-f="${k}" aria-pressed="${i===0}">${n}</button>`).join("");
+$("filters").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  document.querySelectorAll(".g").forEach(g => g.classList.toggle("hide", b.dataset.f !== "all" && g.dataset.k !== b.dataset.f));
+  if(b.dataset.f !== "all") document.querySelectorAll(".stop details").forEach(d => d.open = true);
+});
+// open a topic when linked from the route strip
+if(location.hash.startsWith("#topic")){ const d = document.querySelector(location.hash+" details"); if(d) d.open = true; }
+$("route").addEventListener("click", e => { const a = e.target.closest("a"); if(a){ const d = document.querySelector(a.getAttribute("href")+" details"); if(d) d.open = true; } });
+
+// announcements, about, references
+$("ann").innerHTML = ANNOUNCEMENTS.length ? ANNOUNCEMENTS.slice().reverse().map(a => `<li><time>${esc(a.d)}</time><span>${esc(a.t)}</span></li>`).join("") : "<li>No announcements yet.</li>";
+$("syn").textContent = COURSE.synopsis;
+$("clos").innerHTML = COURSE.clos.map(([a,b]) => `<div class="clo"><b>${a}</b><span>${esc(b)}</span></div>`).join("");
+$("refMain").innerHTML = REFS_MAIN.map(r => `<li>${esc(r)}</li>`).join("");
+$("refMore").innerHTML = REFS_MORE.map(r => `<li>${esc(r)}</li>`).join("");
+$("foot").innerHTML = `UDPL2333 Transport Planning and Demand Analysis. Questions? Email <a href="mailto:${esc(COURSE.contact)}">${esc(COURSE.contact)}</a>.`;
+
+// theme (follows system, remembers choice)
+const root = document.documentElement, btn = $("theme");
+let saved = null; try { saved = localStorage.getItem("theme"); } catch(e){}
+const setTheme = m => { root.dataset.theme = m; btn.textContent = m === "dark" ? "☀️" : "🌙"; };
+setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+btn.onclick = () => { const m = root.dataset.theme === "dark" ? "light" : "dark"; setTheme(m); try{ localStorage.setItem("theme", m); }catch(e){} };
+</script>
+</body>
+</html>
