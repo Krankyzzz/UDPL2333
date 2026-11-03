@@ -89,6 +89,10 @@ section{padding:48px 0}
 .soon{color:var(--muted);font-size:14px;font-style:italic}
 .hide{display:none!important}
 
+.week{margin-top:26px;max-width:62ch;background:var(--amber-soft);border-left:5px solid var(--amber);border-radius:0 12px 12px 0;padding:14px 18px}
+.week b{display:block;font:800 18px var(--head);margin-bottom:2px}
+.week span{color:var(--muted);font-size:15px}
+
 /* info */
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
@@ -124,6 +128,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   <h1>Transport Planning and Demand Analysis</h1>
   <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and topic quizzes. Pick a station on the route below to jump to that topic.</p>
   <div class="facts" id="facts"></div>
+  <div class="week" id="week" aria-live="polite" hidden></div>
   <div class="route" aria-label="Course topics"><ol id="route"></ol></div>
 </div></header>
 
@@ -177,13 +182,19 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 <footer><div class="wrap" id="foot"></div></footer>
 
 <script>
-
+/* ============================================================
+   EDIT THIS SECTION ONLY — everything on the page is built from it.
+   To add a file: upload it to the /materials folder in your repo,
+   then add { t:"Title", u:"materials/topic1-slides.pptx", s:"PPTX" } to a list.
+   Leave u:"" and the item shows as a "Coming soon" placeholder.
+   Quiz links: paste your Google Form link into the quiz list.
+   ============================================================ */
 const COURSE = {
   lecturer: "Khairul Rizuan bin Suliman",
   trimester: "Trimester 2, Year 2",
   credit: "3 credit hours",
   type: "Major course",
-  contact: "rizuans@utar.edu.my",   
+  contact: "rizuans@utar.edu.my",
   synopsis: "Learn the principles of transport planning and the demand analysis techniques behind them. The course covers transportation issues, objectives, procedures, analytical modelling, policy, environmental considerations, information management and decision making, using case studies on passenger and freight transport and on urban and intercity travel.",
   clos: [
     ["CLO 1","Explain issues, objectives, procedures and basic concepts in transportation planning."],
@@ -240,6 +251,30 @@ const REFS_MORE = [
   "Graham Currie (2021). Handbook of Public Transport Research. Edward Elgar Publishing.",
   "Janic, M. (2017). Transport Systems: Modelling, Planning and Evaluation. Taylor & Francis Group."
 ];
+const WEEKLY = {
+  // The MONDAY of Week 1 (format YYYY-MM-DD). CHANGE THIS to your trimester's first Monday.
+  start: "2026-11-02",
+  // One message per week, in order. Week 1 is the first line, Week 2 the second, and so on.
+  // The page switches to the next message every Monday at 00:00 in the VISITOR'S local time.
+  messages: [
+    "Welcome to UDPL2333! Have a look at the course outline and get Topic 1 ready.",
+    "Topic 1 continues: think about how your own daily trips fit into the transport system.",
+    "Wrapping up Topic 1. Revise the planning process before the next topic.",
+    "Topic 2 starts: how, when and why people travel.",
+    "Keep going with Topic 2 and try the tutorial questions before class.",
+    "Topic 3: data is the backbone of good planning. Check the self-study notes.",
+    "Topic 3 continues. Quiz time: attempt it before the weekend.",
+    "Halfway there! Review Topics 1 to 3 and start preparing for the test.",
+    "Topic 4 begins: demand forecasting and modelling.",
+    "Topic 4 continues. Practise the modelling steps in the tutorial.",
+    "Topic 4 wrap-up: look at GIS and scenario planning.",
+    "Topic 5: public transport planning. Almost at the last station!",
+    "Revision week. Go through all the quizzes and tutorials.",
+    "Final exam preparation. Good luck, you've got this!"
+  ],
+  before: "Classes haven't started yet. See you in Week 1!",
+  after: "The trimester has ended. Thank you, and all the best!"
+};
 /* ===================== end of editable section ===================== */
 
 const $ = id => document.getElementById(id);
@@ -293,6 +328,24 @@ $("clos").innerHTML = COURSE.clos.map(([a,b]) => `<div class="clo"><b>${a}</b><s
 $("refMain").innerHTML = REFS_MAIN.map(r => `<li>${esc(r)}</li>`).join("");
 $("refMore").innerHTML = REFS_MORE.map(r => `<li>${esc(r)}</li>`).join("");
 $("foot").innerHTML = `UDPL2333 Transport Planning and Demand Analysis. Questions? Email <a href="mailto:${esc(COURSE.contact)}">${esc(COURSE.contact)}</a>.`;
+
+// weekly greeting: updates itself every Monday 00:00 (visitor's local time)
+function renderWeek(){
+  const box = $("week"), [y,m,d] = WEEKLY.start.split("-").map(Number);
+  const now = new Date();
+  const start = new Date(y, m-1, d);
+  start.setDate(start.getDate() - (start.getDay() + 6) % 7);          // snap to Monday
+  const days = (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) / 864e5;
+  const wk = Math.floor(days / 7);                                      // 0 = Week 1
+  let head, msg;
+  if(wk < 0){ head = "Coming soon"; msg = WEEKLY.before; }
+  else if(wk >= WEEKLY.messages.length){ head = "Trimester complete"; msg = WEEKLY.after; }
+  else { head = "Week " + (wk + 1); msg = WEEKLY.messages[wk]; }
+  box.innerHTML = `<b>${esc(head)}</b><span>${esc(msg)}</span>`;
+  box.hidden = false;
+}
+renderWeek();
+setInterval(renderWeek, 60000);   // keeps it current if the page is left open past midnight
 
 // theme (follows system, remembers choice)
 const root = document.documentElement, btn = $("theme");
