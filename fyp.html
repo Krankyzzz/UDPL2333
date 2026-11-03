@@ -15,27 +15,16 @@
 <body>
 <nav><div class="wrap">
   <a class="brand" href="fyp.html#top">FYP<span>.</span></a>
-  <a class="lnk" href="#journey" hidden>Journey</a>
-  <a class="lnk" href="#resources" hidden>Resources</a>
-  <a class="lnk" href="#dates" hidden>Dates</a>
-  <a class="lnk" href="#report" hidden>Report</a>
-  <a class="lnk" href="#faq" hidden>FAQ</a>
+  <a class="lnk" href="#journey">Journey</a>
+  <a class="lnk" href="#resources">Resources</a>
+  <a class="lnk" href="#dates">Dates</a>
+  <a class="lnk" href="#report">Report</a>
+  <a class="lnk" href="#faq">FAQ</a>
   <a class="lnk" href="index.html">&larr; Course site</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
 </div></nav>
 
-<div id="gate" style="padding:90px 22px;max-width:480px;margin:0 auto">
-  <div class="panel">
-    <h2 style="font-size:30px;margin-bottom:10px">🔒 Students only</h2>
-    <p style="color:var(--muted);margin:0 0 18px">Enter the password your lecturer gave you to open the FYP resources.</p>
-    <form id="gf">
-      <input class="search" id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" style="margin-bottom:12px">
-      <button class="cta" type="submit" style="border:0;cursor:pointer;font:inherit;font-weight:600;margin:0">Unlock</button>
-      <p id="gerr" class="note" hidden>Incorrect password. Please try again.</p>
-    </form>
-  </div>
-</div>
-<div id="app" hidden>
+<div id="app">
 <header class="hero" id="top"><div class="wrap">
   <span class="code">UDPL3246 Research Project</span>
   <h1>Everything you need for your FYP</h1>
@@ -87,9 +76,6 @@
    To add a new category: copy a whole { name, items } block.
    ============================================================ */
 const CONTACT = "rizuans@utar.edu.my";
-// Password gate. To change the password, use password-tool.html and paste the result here.
-const SALT = "udpl2333-fyp|";
-const PASS_HASH = "bb023cad0723554bbb51300af214bf4059bb7c42722c1b2dcbe651ca1d93cb91";
 
 const JOURNEY = [
   ["Choose a topic", "Find a problem you care about. Check it is specific, researchable and doable in the time given."],
@@ -197,21 +183,7 @@ const setTheme = m => { root.dataset.theme = m; btn.textContent = m === "dark" ?
 setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
 btn.onclick = () => { const m = root.dataset.theme === "dark" ? "light" : "dark"; setTheme(m); try{ localStorage.setItem("theme", m); }catch(e){} };
 
-// ---- password gate (a convenience lock, not real security) ----
-const sha = async t => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(SALT + t)))].map(x => x.toString(16).padStart(2,"0")).join("");
-function unlock(){
-  $("gate").hidden = true; $("app").hidden = false;
-  document.querySelectorAll('nav a.lnk[href^="#"]').forEach(a => a.hidden = false);
-  boot();
-}
-$("gf").addEventListener("submit", async e => {
-  e.preventDefault();
-  if(!(window.crypto && crypto.subtle)){ $("gerr").textContent = "Your browser can't check passwords on this page. Try another browser."; $("gerr").hidden = false; return; }
-  const h = await sha($("pw").value);
-  if(h === PASS_HASH){ try{ sessionStorage.setItem("fyp", h); }catch(_){} unlock(); }
-  else { $("gerr").hidden = false; $("pw").select(); }
-});
-try{ if(sessionStorage.getItem("fyp") === PASS_HASH) unlock(); }catch(_){}
+boot();
 </script>
 </body>
 </html>
