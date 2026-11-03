@@ -9,108 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#f5f8f7; --surface:#ffffff; --ink:#14202b; --muted:#566673; --line:#d7e0dd;
-  --green:#00835a; --green-soft:#dff3ea; --blue:#2458e6; --amber:#f2a900; --amber-soft:#fff2cc;
-  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif; --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
-}
-:root[data-theme="dark"]{
-  --bg:#0e1519; --surface:#16212a; --ink:#e8f0ee; --muted:#9db0ba; --line:#28363f;
-  --green:#3ddc9f; --green-soft:#123327; --blue:#7ea0ff; --amber:#ffc83d; --amber-soft:#3a2f0b;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0}
-
-/* nav */
-nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
-.brand{font:800 18px var(--head);text-decoration:none;margin-right:auto}
-.brand span{color:var(--green)}
-nav a.lnk{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500}
-nav a.lnk:hover{color:var(--ink)}
-#theme{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:16px}
-@media(max-width:700px){nav a.lnk{display:none}}
-
-/* hero */
-.hero{padding:64px 0 36px}
-.code{display:inline-block;background:var(--green);color:#fff;font:600 14px var(--body);padding:4px 12px;border-radius:6px;margin-bottom:18px}
-:root[data-theme="dark"] .code{color:#06231a}
-.hero h1{font-size:clamp(38px,7vw,72px);font-weight:800;letter-spacing:-.02em;max-width:14ch}
-.hero p.lead{max-width:60ch;color:var(--muted);font-size:18px;margin:20px 0 26px}
-.facts{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
-.facts b{display:block;color:var(--ink);font-size:16px}
-
-/* route strip */
-.route{margin-top:44px;padding:26px 0 8px;overflow-x:auto}
-.route ol{list-style:none;margin:0;padding:0;display:flex;min-width:640px;position:relative}
-.route ol::before{content:"";position:absolute;left:5%;right:5%;top:13px;height:8px;background:var(--green);border-radius:4px}
-.route li{flex:1;text-align:center;position:relative}
-.route a{text-decoration:none;display:block;font-size:13px;font-weight:500;padding:0 6px}
-.route i{display:block;width:30px;height:30px;margin:0 auto 10px;border-radius:50%;background:var(--surface);border:6px solid var(--ink);transition:transform .2s,border-color .2s}
-.route a:hover i{transform:scale(1.25);border-color:var(--amber)}
-
-/* sections */
-section{padding:48px 0}
-.sec-h{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:26px}
-.sec-h h2{font-size:clamp(28px,4vw,40px);font-weight:800}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px var(--body);padding:6px 14px;border-radius:999px;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-
-/* topics as stations on a line */
-.line{position:relative;padding-left:56px}
-.line::before{content:"";position:absolute;left:17px;top:18px;bottom:18px;width:8px;background:var(--green);border-radius:4px}
-.stop{position:relative;margin-bottom:22px}
-.stop::before{content:attr(data-n);position:absolute;left:-56px;top:2px;width:42px;height:42px;border-radius:50%;background:var(--surface);border:6px solid var(--ink);display:grid;place-items:center;font:800 15px var(--head);box-sizing:border-box;margin-left:-1px}
-.stop details{background:var(--surface);border:1px solid var(--line);border-radius:14px}
-.stop summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;gap:14px;align-items:center}
-.stop summary::-webkit-details-marker{display:none}
-.stop summary h3{font-size:21px;font-weight:600;flex:1}
-.stop summary::after{content:"+";font:600 24px var(--head);color:var(--green);transition:transform .2s}
-.stop details[open] summary::after{transform:rotate(45deg)}
-.tag{font-size:12px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--amber-soft);color:var(--ink);white-space:nowrap}
-.body{padding:0 22px 22px;border-top:1px solid var(--line)}
-.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px;color:var(--muted);margin:16px 0 8px}
-.pts{margin:0 0 18px;padding-left:18px;color:var(--muted);font-size:15px;columns:2 260px}
-.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.g{border-left:4px solid var(--c);padding:2px 0 2px 14px}
-.g h4{margin:0 0 8px;font:600 15px var(--body)}
-.g[data-k=slides]{--c:var(--blue)} .g[data-k=tut]{--c:var(--green)} .g[data-k=self]{--c:var(--amber)} .g[data-k=quiz]{--c:#d6455d}
-.g ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.res{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:14.5px;padding:7px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
-.res:hover{border-color:var(--c);background:var(--surface)}
-.res small{margin-left:auto;color:var(--muted);font-size:12px}
-.soon{color:var(--muted);font-size:14px;font-style:italic}
-.hide{display:none!important}
-
-.week{margin-top:26px;max-width:62ch;background:var(--amber-soft);border-left:5px solid var(--amber);border-radius:0 12px 12px 0;padding:14px 18px}
-.week b{display:block;font:800 18px var(--head);margin-bottom:2px}
-.week span{color:var(--muted);font-size:15px}
-
-/* info */
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
-.panel h3{font-size:22px;margin-bottom:12px}
-.clo{display:flex;gap:12px;margin:12px 0}
-.clo b{flex:none;background:var(--green-soft);color:var(--green);border-radius:6px;padding:1px 9px;height:fit-content;font-size:14px}
-.bar{display:flex;height:44px;border-radius:10px;overflow:hidden;margin:12px 0;font-weight:600;font-size:14px}
-.bar div{display:grid;place-items:center;flex:1}
-.bar .a{background:var(--blue);color:#fff}.bar .b{background:var(--ink);color:var(--bg)}
-.note{background:var(--amber-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
-.ann{list-style:none;padding:0;margin:0}
-.ann li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
-.ann li:last-child{border:0}
-.ann time{flex:none;font-weight:600;font-size:14px;color:var(--green);min-width:84px}
-.refs{padding-left:20px;margin:0}.refs li{margin:8px 0;font-size:15px}
-footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <nav><div class="wrap">
@@ -120,6 +19,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   <a class="lnk" href="#about">About</a>
   <a class="lnk" href="#assessment">Assessment</a>
   <a class="lnk" href="#references">References</a>
+  <a class="lnk" href="fyp.html">FYP</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
 </div></nav>
 
@@ -129,6 +29,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and topic quizzes. Pick a station on the route below to jump to that topic.</p>
   <div class="facts" id="facts"></div>
   <div class="week" id="week" aria-live="polite" hidden></div>
+  <a class="cta" href="fyp.html">Final Year Project resources &rarr;</a>
   <div class="route" aria-label="Course topics"><ol id="route"></ol></div>
 </div></header>
 
@@ -168,6 +69,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
       <div class="note"><b>Important:</b> a score of 39% or below in either component is an automatic Fail (F), whatever your overall mark.</div>
     </div>
   </div>
+  <h3 style="font:800 26px var(--head);margin:40px 0 18px">Assessment papers and rubrics</h3>
+  <div class="grid2" id="assessList"></div>
 </div></section>
 
 <section id="references"><div class="wrap">
@@ -275,6 +178,20 @@ const WEEKLY = {
   before: "Classes haven't started yet. See you in Week 1!",
   after: "The trimester has ended. Thank you, and all the best!"
 };
+const ASSESSMENTS = [
+  { name:"Assignment", due:"TBA", note:"",
+    q:[{t:"Assignment questions", u:"", s:"PDF"}],
+    r:[{t:"Assignment marking rubric", u:"", s:"PDF"}] },
+  { name:"Test", due:"TBA", note:"",
+    q:[{t:"Test paper / sample questions", u:"", s:"PDF"}],
+    r:[{t:"Test marking scheme", u:"", s:"PDF"}] },
+  { name:"Quizzes", due:"See each topic", note:"Quiz links are inside each topic above.",
+    q:[{t:"Quiz question bank (optional)", u:"", s:"PDF"}],
+    r:[{t:"Quiz grading guide", u:"", s:"PDF"}] },
+  { name:"Final examination", due:"TBA", note:"",
+    q:[{t:"Sample / past year paper", u:"", s:"PDF"}],
+    r:[{t:"Marking scheme / answering guide", u:"", s:"PDF"}] }
+];
 /* ===================== end of editable section ===================== */
 
 const $ = id => document.getElementById(id);
@@ -328,6 +245,15 @@ $("clos").innerHTML = COURSE.clos.map(([a,b]) => `<div class="clo"><b>${a}</b><s
 $("refMain").innerHTML = REFS_MAIN.map(r => `<li>${esc(r)}</li>`).join("");
 $("refMore").innerHTML = REFS_MORE.map(r => `<li>${esc(r)}</li>`).join("");
 $("foot").innerHTML = `UDPL2333 Transport Planning and Demand Analysis. Questions? Email <a href="mailto:${esc(COURSE.contact)}">${esc(COURSE.contact)}</a>.`;
+
+// assessment papers and rubrics
+$("assessList").innerHTML = ASSESSMENTS.map(a => `
+<div class="panel"><h3>${esc(a.name)}</h3>
+  <p class="adue">${a.due ? "Due: " + esc(a.due) + ". " : ""}${esc(a.note || "")}</p>
+  <div class="groups">
+    <div class="g" data-k="qn"><h4>Questions</h4><ul>${a.q.map(r => item(r,"qn")).join("")}</ul></div>
+    <div class="g" data-k="rub"><h4>Marking rubric</h4><ul>${a.r.map(r => item(r,"rub")).join("")}</ul></div>
+  </div></div>`).join("");
 
 // weekly greeting: updates itself every Monday 00:00 (visitor's local time)
 function renderWeek(){

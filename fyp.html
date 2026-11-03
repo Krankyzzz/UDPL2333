@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Year Project Resources</title>
+<meta name="description" content="Guides, forms, templates and documents for the Final Year Project.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="fyp.html#top">FYP<span>.</span></a>
+  <a class="lnk" href="#journey">Journey</a>
+  <a class="lnk" href="#resources">Resources</a>
+  <a class="lnk" href="#dates">Dates</a>
+  <a class="lnk" href="#report">Report</a>
+  <a class="lnk" href="#faq">FAQ</a>
+  <a class="lnk" href="index.html">&larr; Course site</a>
+  <button id="theme" aria-label="Toggle dark mode">🌙</button>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <span class="code">Final Year Project</span>
+  <h1>Everything you need for your FYP</h1>
+  <p class="lead">Guides on how to plan and run your project, how to write the report, plus the forms, templates and other documents you will need along the way.</p>
+  <div class="btns"><a class="cta" href="#resources">Browse documents</a><a class="cta alt" href="index.html">&larr; Back to UDPL2333</a></div>
+</div></header>
+
+<main>
+<section id="journey"><div class="wrap">
+  <div class="sec-h"><h2>Your FYP journey</h2></div>
+  <ol class="steps" id="steps"></ol>
+</div></section>
+
+<section id="resources"><div class="wrap">
+  <div class="sec-h"><h2>Documents</h2><input class="search" id="q" type="search" placeholder="Search guides, forms, templates..." aria-label="Search documents"></div>
+  <div id="docs"></div>
+  <p class="soon hide" id="none">No documents match your search.</p>
+</div></section>
+
+<section id="dates"><div class="wrap">
+  <div class="sec-h"><h2>Key dates</h2></div>
+  <div class="panel"><ul class="tl" id="dateList"></ul></div>
+</div></section>
+
+<section id="report"><div class="wrap">
+  <div class="sec-h"><h2>A typical report structure</h2></div>
+  <div class="grid2">
+    <div class="panel"><ol class="refs" id="struct"></ol>
+      <div class="note">Always follow your department's FYP handbook and your supervisor's instructions if they differ from this outline.</div></div>
+    <div class="panel"><h3>Before you submit</h3><ul class="refs" id="check"></ul></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="sec-h"><h2>Quick answers</h2></div>
+  <div class="faq" id="faqList"></div>
+</div></section>
+</main>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script>
+/* ============================================================
+   EDIT THIS SECTION ONLY.
+   Upload files to the /fyp folder in your repo, then set u:"fyp/your-file.pdf".
+   Leave u:"" for a "Coming soon" card. Links starting with https:// also work.
+   To add a document: copy one line inside a list and change it.
+   To add a new category: copy a whole { name, items } block.
+   ============================================================ */
+const CONTACT = "rizuans@utar.edu.my";
+
+const JOURNEY = [
+  ["Choose a topic", "Find a problem you care about. Check it is specific, researchable and doable in the time given."],
+  ["Write the proposal", "State the problem, objectives, scope and planned method. Get your supervisor's approval."],
+  ["Review the literature", "Read widely, note what is known and what is missing, and place your project in that gap."],
+  ["Collect and analyse data", "Follow your method, keep clean records and back up your files often."],
+  ["Write the report", "Write as you go, chapter by chapter, instead of leaving it all to the end."],
+  ["Submit and present", "Check the formatting, run a similarity check, submit on time and rehearse your presentation."]
+];
+
+const SECTIONS = [
+  { name:"Guides", items:[
+    {t:"FYP handbook", d:"Rules, timeline, supervision and assessment.", u:"", s:"PDF"},
+    {t:"How to choose and scope a topic", d:"Turn an idea into a doable project.", u:"", s:"PDF"},
+    {t:"How to write a literature review", d:"Searching, reading and synthesising sources.", u:"", s:"PDF"},
+    {t:"Data collection and analysis guide", d:"Planning surveys, counts and analysis.", u:"", s:"PDF"} ]},
+  { name:"Report writing", items:[
+    {t:"Report writing guide", d:"What goes in each chapter and how to write it.", u:"", s:"PDF"},
+    {t:"Citation and referencing guide", d:"Citing sources and avoiding plagiarism.", u:"", s:"PDF"},
+    {t:"Formatting requirements", d:"Margins, fonts, figures, tables and page numbers.", u:"", s:"PDF"} ]},
+  { name:"Forms", items:[
+    {t:"Topic proposal form", d:"Submit your proposed title and supervisor.", u:"", s:"DOCX"},
+    {t:"Supervision meeting log", d:"Record every meeting and what was agreed.", u:"", s:"DOCX"},
+    {t:"Ethics approval form", d:"Needed if you involve people in your study.", u:"", s:"DOCX"},
+    {t:"Originality declaration", d:"Confirm that the work is your own.", u:"", s:"DOCX"} ]},
+  { name:"Templates", items:[
+    {t:"Proposal template", d:"Ready-made headings and layout.", u:"", s:"DOCX"},
+    {t:"Final report template", d:"Pre-formatted report with styles set up.", u:"", s:"DOCX"},
+    {t:"Presentation slide template", d:"For your viva or final presentation.", u:"", s:"PPTX"},
+    {t:"Poster template", d:"If a poster is part of your assessment.", u:"", s:"PPTX"} ]},
+  { name:"Other documents", items:[
+    {t:"FYP marking rubric", d:"How the proposal, report and presentation are graded.", u:"", s:"PDF"},
+    {t:"Sample reports", d:"Examples of good past projects.", u:"", s:"PDF"},
+    {t:"Supervisor list and research areas", d:"Who supervises which topics.", u:"", s:"PDF"},
+    {t:"Useful tools: Google Scholar", d:"Search academic papers.", u:"https://scholar.google.com", s:"Link"},
+    {t:"Useful tools: Zotero", d:"Free reference manager.", u:"https://www.zotero.org", s:"Link"} ]}
+];
+
+const DATES = [
+  { d:"TBA", t:"Topic selection and supervisor allocation" },
+  { d:"TBA", t:"Proposal submission" },
+  { d:"TBA", t:"Progress report / interim presentation" },
+  { d:"TBA", t:"Draft report to supervisor" },
+  { d:"TBA", t:"Final report submission" },
+  { d:"TBA", t:"Final presentation / viva" }
+];
+
+const STRUCTURE = [
+  "Abstract: a short summary of the problem, method, key results and conclusion",
+  "Introduction: background, problem statement, objectives and scope",
+  "Literature review: what is already known and where the gap is",
+  "Methodology: how you collected and analysed the data, and why",
+  "Results: what you found, with clear tables and figures",
+  "Discussion: what the results mean and how they compare with other studies",
+  "Conclusion and recommendations: answer your objectives, state limitations, suggest future work",
+  "References and appendices"
+];
+const CHECKLIST = [
+  "Every objective is answered in the conclusion",
+  "All figures and tables are numbered, captioned and mentioned in the text",
+  "Citations in the text match the reference list",
+  "Spelling, grammar and formatting are checked",
+  "Similarity (plagiarism) report is within the allowed limit",
+  "Your supervisor has seen the final draft",
+  "Forms and declarations are signed and submitted"
+];
+const FAQ = [
+  ["How often should I meet my supervisor?", "Agree a schedule at your first meeting. Meeting regularly, with a short update and clear questions each time, works best. Keep a log of every meeting."],
+  ["What if I fall behind schedule?", "Tell your supervisor early. Problems are much easier to fix in week 4 than in week 12."],
+  ["Can I change my topic?", "Usually yes, early on and with your supervisor's approval. Check the handbook for the deadline."],
+  ["Who do I contact if I have a question?", `Email <a href="mailto:${CONTACT}">${CONTACT}</a>.`]
+];
+/* ===================== end of editable section ===================== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("steps").innerHTML = JOURNEY.map(([a,b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("");
+
+$("docs").innerHTML = SECTIONS.map(sec => `
+<div class="grp" style="margin-bottom:34px"><h3 style="font:600 22px var(--head);margin-bottom:14px">${esc(sec.name)}</h3>
+<div class="docs">${sec.items.map(r => {
+  const inner = `<b>${esc(r.t)}</b><p>${esc(r.d || "")}</p><em>${r.u ? esc(r.s || "File") : "Coming soon"}</em>`;
+  const ext = /^https?:/.test(r.u);
+  return r.u ? `<a class="doc" href="${esc(r.u)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${inner}</a>` : `<div class="doc off">${inner}</div>`;
+}).join("")}</div></div>`).join("");
+
+$("q").addEventListener("input", e => {
+  const v = e.target.value.trim().toLowerCase(); let any = false;
+  document.querySelectorAll(".doc").forEach(d => { const hit = d.textContent.toLowerCase().includes(v); d.classList.toggle("hide", !hit); any = any || hit; });
+  document.querySelectorAll(".grp").forEach(g => g.classList.toggle("hide", !g.querySelector(".doc:not(.hide)")));
+  $("none").classList.toggle("hide", any);
+});
+
+$("dateList").innerHTML = DATES.map(x => `<li><b>${esc(x.d)}</b><span>${esc(x.t)}</span></li>`).join("");
+$("struct").innerHTML = STRUCTURE.map(x => `<li>${esc(x)}</li>`).join("");
+$("check").innerHTML = CHECKLIST.map(x => `<li>${esc(x)}</li>`).join("");
+$("faqList").innerHTML = FAQ.map(([q,a]) => `<details><summary>${esc(q)}</summary><p>${a}</p></details>`).join("");
+$("foot").innerHTML = `Final Year Project resources. <a href="index.html">Back to UDPL2333</a>. Questions? Email <a href="mailto:${CONTACT}">${CONTACT}</a>.`;
+
+const root = document.documentElement, btn = $("theme");
+let saved = null; try { saved = localStorage.getItem("theme"); } catch(e){}
+const setTheme = m => { root.dataset.theme = m; btn.textContent = m === "dark" ? "☀️" : "🌙"; };
+setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+btn.onclick = () => { const m = root.dataset.theme === "dark" ? "light" : "dark"; setTheme(m); try{ localStorage.setItem("theme", m); }catch(e){} };
+</script>
+</body>
+</html>
