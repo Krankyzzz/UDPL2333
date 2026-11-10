@@ -15,6 +15,7 @@
 <nav><div class="wrap">
   <a class="brand" href="#top">UDPL<span>2333</span></a>
   <a class="lnk" href="#materials">Materials</a>
+  <a class="lnk" href="#resources">Resources</a>
   <a class="lnk" href="#updates">Updates</a>
   <a class="lnk" href="#about">About</a>
   <a class="lnk" href="#assessment">Assessment</a>
@@ -38,6 +39,11 @@
     <div class="chips" id="filters" role="group" aria-label="Filter materials"></div>
   </div>
   <div class="line" id="topics"></div>
+</div></section>
+
+<section id="resources"><div class="wrap">
+  <div class="sec-h"><h2>Learning resources</h2></div>
+  <div id="learnList"></div>
 </div></section>
 
 <section id="updates"><div class="wrap">
@@ -200,6 +206,15 @@ const ASSESSMENTS = [
     q:[{t:"Sample / past year paper", u:"", s:"PDF"}],
     r:[{t:"Marking scheme / answering guide", u:"", s:"PDF"}] }
 ];
+const LEARNING = [
+  { name:"Handbooks", items:[
+    {t:"Transportation Planning Handbook, 4th ed. (Meyer, 2016)", d:"Course reference book. Full handbook covering the whole planning process.", u:"https://drive.google.com/file/d/1TwkrONCIIhGmvzCfgvIXO4axPRg7xEYV/view?usp=drive_web", s:"PDF"},
+    {t:"Transportation Planning Handbook: front matter", d:"Contents and preface. A quick preview of how the handbook is organised.", u:"https://drive.google.com/file/d/10y4Mw0LvptCZQbAwdk2w2_7G2xs3Ilgt/view?usp=drive_web", s:"PDF"} ]},
+  { name:"Reports and guides", items:[
+    {t:"NCHRP Report 446", d:"A guidebook for performance-based transportation planning.", u:"https://drive.google.com/file/d/1oAe1dnJ9qtx4FjGJj2a3oC54rZ58oPdq/view?usp=drive_web", s:"PDF"},
+    {t:"TRL 593: The Demand for Public Transport", d:"A practical guide to public transport demand. Useful for Topics 4 and 5.", u:"https://drive.google.com/file/d/1XGlrstznCZLF_4DcILI3aHlVd7gmoB7p/view?usp=drive_web", s:"PDF"},
+    {t:"Additional reference (1922152E_WEB_light)", d:"Extra reading for the course.", u:"https://drive.google.com/file/d/1zZcjDe2pQlD768Y8IQ-xiobPo08gOzKn/view?usp=drive_web", s:"PDF"} ]}
+];
 /* ===================== end of editable section ===================== */
 
 const $ = id => document.getElementById(id);
@@ -254,6 +269,17 @@ $("clos").innerHTML = COURSE.clos.map(([a,b]) => `<div class="clo"><b>${a}</b><s
 $("refMain").innerHTML = REFS_MAIN.map(r => `<li>${esc(r)}</li>`).join("");
 $("refMore").innerHTML = REFS_MORE.map(r => `<li>${esc(r)}</li>`).join("");
 $("foot").innerHTML = `UDPL2333 Transport Planning and Demand Analysis. Questions? Email <a href="mailto:${esc(COURSE.contact)}">${esc(COURSE.contact)}</a>.`;
+
+// learning resources
+$("learnList").innerHTML = LEARNING.map(g => `
+<div style="margin-bottom:30px"><h3 style="font:600 22px var(--head);margin-bottom:14px">${esc(g.name)}</h3>
+<div class="docs">${g.items.map(r => {
+  const inner = `<b>${esc(r.t)}</b><p>${esc(r.d || "")}</p><em>${r.u ? esc(r.s || "File") : "Coming soon"}</em>`;
+  if(!r.u) return `<div class="doc off">${inner}</div>`;
+  const ext = /^https?:/.test(r.u);
+  const href = ext ? r.u : r.u.split("/").map(encodeURIComponent).join("/");
+  return `<a class="doc" href="${esc(href)}" ${ext ? 'target="_blank" rel="noopener"' : ""}>${inner}</a>`;
+}).join("")}</div></div>`).join("");
 
 // assessment papers and rubrics
 $("assessList").innerHTML = ASSESSMENTS.map(a => `
