@@ -41,6 +41,10 @@
 .top small{color:var(--muted);font-size:12.5px}
 .top b{display:block;font-weight:600;font-size:15px;line-height:1.35;margin-top:2px}
 .top a:hover b{color:var(--green)}
+.sl>.ph{position:absolute;right:14px;bottom:22px;z-index:3;max-width:34%;font-size:11px;color:#fff;opacity:.85;text-decoration:none;text-align:right;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.sl>.ph:hover{opacity:1;text-decoration:underline}
+.sl h3,.sl small{text-shadow:0 1px 6px rgba(0,0,0,.45)}
+@media(max-width:600px){.sl>.ph{display:none}.sl{padding:24px 54px 66px}}
 </style>
 </head>
 <body>
@@ -272,12 +276,21 @@ const HIGHLIGHTS = [
 // Optional pictures for the live slides. Upload photos you have the right to use to an "images" folder
 // in your repo, then list them here, e.g. News:["images/bus.jpg","images/rail.jpg"]. Each slide picks one.
 const SLIDE_IMAGES = { News:[], Malaysia:[], Research:[], Course:[] };
+// Free photos from Wikimedia Commons (no account needed). Only photos with open licences (CC BY, CC BY-SA, CC0,
+// public domain) are used, and each slide shows a small credit link. Change the search words to change the pictures.
+// Leave Course empty to keep its route-map illustration. Set on:false to switch this off.
+const PHOTOS = { on:true, queries:{
+  News:["bus rapid transit","urban public transport"],
+  Malaysia:["Kuala Lumpur LRT","Kuala Lumpur traffic"],
+  Research:["traffic engineering","intelligent transportation system"],
+  Course:[] } };
 const LIVE_ON = true;
 const MAX_SLIDES = 7;
 const LIVE_FEEDS = [
   { cat:"News",     q:"urban transport planning" },
   { cat:"Malaysia", q:"public transport Malaysia" },
   { cat:"Research", q:"transportation research study" }
+  // To use a publisher's own feed (these often include article pictures), use: { cat:"News", rss:"https://.../feed.xml" },
 ];
 /* ===================== end of editable section ===================== */
 
@@ -357,16 +370,22 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
 // transport highlights carousel
 (function(){
   const CATS = ["News","Malaysia","Research","Course"];
-  let items = HIGHLIGHTS.slice(), cur = 0, timer = null, playing = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let items = HIGHLIGHTS.slice(), cur = 0, timer = null, stock = {}, playing = !matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ago = d => { if(!d) return ""; const t = new Date(d), s = (Date.now() - t) / 1000; if(isNaN(s) || s < 0) return "";
     if(s < 3600) return Math.max(1, Math.round(s/60)) + "m ago"; if(s < 86400) return Math.round(s/3600) + "h ago";
     if(s < 2592000) return Math.round(s/86400) + "d ago"; return t.toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}); };
   const ext = u => /^https?:/.test(u) ? ' target="_blank" rel="noopener"' : "";
-  const hash = t => [...t].reduce((a,c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
-  const pic = it => { let p = it.img; if(!p){ const pool = SLIDE_IMAGES[it.cat] || []; p = pool.length ? pool[hash(it.t) % pool.length] : ""; }
-    return !p ? "" : (/^(https?:|data:)/.test(p) ? p : p.split("/").map(encodeURIComponent).join("/")).replace(/'/g,"%27"); };
   const meta = it => [it.src, ago(it.d)].filter(Boolean).join(" \u00b7 ");
-
+  const hash = t => [...t].reduce((a,c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const enc = p => (/^(https?:|data:)/.test(p) ? p : p.split("/").map(encodeURIComponent).join("/")).replace(/'/g,"%27");
+  // picture order: the story's own image, your SLIDE_IMAGES, then free Wikimedia photos (rotating daily)
+  function pick(it, used){
+    if(it.img) return { url: enc(it.img) };
+    const mine = SLIDE_IMAGES[it.cat] || [];
+    if(mine.length) return { url: enc(mine[hash(it.t) % mine.length]) };
+    const sp = stock[it.cat] || [], n = used[it.cat] = (used[it.cat] || 0) + 1;
+    return sp.length ? sp[(Math.floor(Date.now() / 864e5) + n) % sp.length] : null;
+  }
   function show(i){
     cur = (i + items.length) % items.length;
     document.querySelectorAll(".sl").forEach((el,n) => { el.classList.toggle("on", n === cur); el.setAttribute("aria-hidden", n !== cur); });
@@ -374,40 +393,64 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
   }
   function play(){ clearInterval(timer); if(playing && items.length > 1) timer = setInterval(() => show(cur + 1), 6000); }
   function build(){
-    $("slides").innerHTML = items.map(it => `
-      <article class="sl c-${CATS.includes(it.cat) ? it.cat : "News"}" ${pic(it) ? `style="background-image:url('${esc(pic(it))}')"` : ""}>
+    const used = {};
+    $("slides").innerHTML = items.map(it => { const p = pick(it, used);
+      return `<article class="sl c-${CATS.includes(it.cat) ? it.cat : "News"}" ${p ? `style="background-image:url('${esc(p.url)}')"` : ""}>
         <span class="kick">${esc(it.cat || "News")}</span>
         <small>${esc(meta(it))}</small>
         <h3><a href="${esc(it.u || "#")}"${ext(it.u || "")}>${esc(it.t)}</a></h3>
-      </article>`).join("");
+        ${p && p.credit ? `<a class="ph" href="${esc(p.page)}" target="_blank" rel="noopener">${esc(p.credit)}</a>` : ""}
+      </article>`; }).join("");
     $("dots").innerHTML = `<button class="pp" id="pp" aria-label="${playing ? "Pause" : "Play"} slideshow">${playing ? "Pause" : "Play"}</button>` +
       items.map((_,i) => `<button data-i="${i}" aria-label="Go to slide ${i+1}"></button>`).join("");
-    show(0); play();
+    show(cur < items.length ? cur : 0); play();
   }
   function top(list){
     $("topList").innerHTML = list.length ? list.slice(0,4).map(it => `<a href="${esc(it.u)}"${ext(it.u)}><small>${esc(meta(it))}</small><b>${esc(it.t)}</b></a>`).join("")
       : '<p class="soon">Live headlines are unavailable right now.</p>';
   }
   async function live(){
-    const KEY = "hl-cache-v1";
+    const KEY = "hl-cache-v2";
     try{ const c = JSON.parse(localStorage.getItem(KEY)); if(c && Date.now() - c.t < 3*3600e3 && c.groups.some(g => g.length)) return c.groups; }catch(_){}
     const res = await Promise.allSettled(LIVE_FEEDS.map(async f => {
-      const rss = "https://news.google.com/rss/search?q=" + encodeURIComponent(f.q + " when:14d") + "&hl=en-MY&gl=MY&ceid=MY:en";
+      const rss = f.rss || ("https://news.google.com/rss/search?q=" + encodeURIComponent(f.q + " when:14d") + "&hl=en-MY&gl=MY&ceid=MY:en");
       const j = await (await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rss))).json();
       if(j.status !== "ok") throw new Error("feed");
       return j.items.slice(0,4).map(x => { const m = x.title.match(/^(.*) - ([^-]+)$/);
-        return { cat:f.cat, t:m ? m[1] : x.title, src:m ? m[2] : "Google News", d:(x.pubDate || "").replace(" ","T") + "Z", u:x.link }; });
+        const im = x.thumbnail || (x.enclosure && /image/.test(x.enclosure.type || "") ? x.enclosure.link : "");
+        return { cat:f.cat, t:m && !f.rss ? m[1] : x.title, src:m && !f.rss ? m[2] : (j.feed && j.feed.title) || "News", d:(x.pubDate || "").replace(" ","T") + "Z", u:x.link, img:im || "" }; });
     }));
     const groups = res.map(r => r.status === "fulfilled" ? r.value : []);
     if(groups.some(g => g.length)) try{ localStorage.setItem(KEY, JSON.stringify({t:Date.now(), groups})); }catch(_){}
     return groups;
+  }
+  async function photos(){
+    const KEY = "hl-photos-v1";
+    try{ const c = JSON.parse(localStorage.getItem(KEY)); if(c && Date.now() - c.t < 864e5 && Object.keys(c.p).length) return c.p; }catch(_){}
+    const out = {};
+    await Promise.all(Object.entries(PHOTOS.queries).flatMap(([cat, qs]) => qs.map(async q => { try{
+      const u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=25&gsrsearch=" +
+        encodeURIComponent(q + " filetype:bitmap") + "&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth=1200&iiextmetadatafilter=LicenseShortName|Artist";
+      const j = await (await fetch(u)).json();
+      Object.values((j.query && j.query.pages) || {}).forEach(pg => {
+        const i = pg.imageinfo && pg.imageinfo[0]; if(!i || i.mime !== "image/jpeg" || !i.thumburl) return;
+        const r = i.width / i.height; if(i.width < 1200 || r < 1.3 || r > 2.3 || /map|logo|diagram|flag|chart|poster|screenshot|stamp/i.test(pg.title)) return;
+        const m = i.extmetadata || {}, lic = (m.LicenseShortName && m.LicenseShortName.value) || "";
+        if(!/^(CC BY|CC0|Public domain|PD)/i.test(lic)) return;
+        const who = ((m.Artist && m.Artist.value) || "").replace(/<[^>]*>/g,"").trim().slice(0,36);
+        const list = out[cat] = out[cat] || []; if(list.some(x => x.page === i.descriptionurl)) return;
+        list.push({ url: i.thumburl.replace(/'/g,"%27"), page: i.descriptionurl, credit: "Photo: " + (who || "Wikimedia Commons") + " / " + lic });
+      });
+    }catch(_){} })));
+    if(Object.keys(out).length) try{ localStorage.setItem(KEY, JSON.stringify({t:Date.now(), p:out})); }catch(_){}
+    return out;
   }
 
   $("prev").onclick = () => { show(cur - 1); play(); };
   $("next").onclick = () => { show(cur + 1); play(); };
   $("dots").addEventListener("click", e => {
     const b = e.target.closest("button"); if(!b) return;
-    if(b.id === "pp"){ playing = !playing; b.textContent = b.ariaLabel = playing ? "Pause" : "Play"; b.setAttribute("aria-label", (playing ? "Pause" : "Play") + " slideshow"); play(); }
+    if(b.id === "pp"){ playing = !playing; b.textContent = playing ? "Pause" : "Play"; b.setAttribute("aria-label", (playing ? "Pause" : "Play") + " slideshow"); play(); }
     else { show(+b.dataset.i); play(); }
   });
   const car = $("car"); let x0 = null;
@@ -417,6 +460,7 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
   car.addEventListener("touchend", e => { if(x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if(Math.abs(dx) > 40){ show(cur + (dx < 0 ? 1 : -1)); play(); } });
 
   build();
+  if(PHOTOS.on) photos().then(p => { stock = p; build(); }).catch(() => {});
   if(!LIVE_ON){ top([]); return; }
   live().then(groups => {
     const all = groups.flat().sort((a,b) => new Date(b.d) - new Date(a.d));
