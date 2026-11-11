@@ -11,6 +11,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+.alert{--ac:#d6283e;--bg2:#fff1f1;display:grid;grid-template-columns:auto 1fr;gap:24px;background:var(--bg2);border:2px solid var(--ac);border-left-width:12px;border-radius:18px;padding:30px 32px;box-shadow:0 18px 40px -22px rgba(214,40,62,.6)}
+:root[data-theme="dark"] .alert{--ac:#ff5c6c;--bg2:rgba(255,92,108,.12)}
+.alert-i{width:66px;height:66px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font:800 40px var(--head);animation:pulse 2s infinite}
+:root[data-theme="dark"] .alert-i{color:#1a0509}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ac) 55%,transparent)}70%,100%{box-shadow:0 0 0 18px transparent}}
+.alert h2{font-size:clamp(24px,4vw,38px);font-weight:800;text-transform:uppercase;line-height:1.1;color:var(--ac);margin-bottom:12px}
+.alert p{font-size:clamp(17px,2.2vw,20px);margin:0 0 18px;line-height:1.5}
+.alert mark{background:#ffd23f;color:#14202b;padding:1px 8px;border-radius:6px;font-weight:800}
+.alert .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin:0 0 18px}
+.alert .st{flex:1 1 220px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.alert .st b{display:block;font:800 24px var(--head);margin-bottom:2px}
+.alert .ar{align-self:center;font-size:30px;font-weight:800;color:var(--ac)}
+.alert .void{background:var(--ac);color:#fff;border-radius:14px;padding:16px 22px;font-size:clamp(17px,2.2vw,22px);font-weight:700;line-height:1.4}
+:root[data-theme="dark"] .alert .void{color:#1a0509}
+.alert .void u{text-decoration-thickness:3px;text-underline-offset:4px}
+@media(max-width:640px){.alert{grid-template-columns:1fr;padding:22px 20px}.alert .ar{display:none}}
+@media(prefers-reduced-motion:reduce){.alert-i{animation:none}}
+</style>
 </head>
 <body>
 <nav><div class="wrap">
@@ -33,6 +52,23 @@
 </div></header>
 
 <main>
+<section id="notice" style="padding:30px 0 0"><div class="wrap">
+  <div class="alert" role="note" aria-label="Important notice about FYP registration">
+    <div class="alert-i" aria-hidden="true">!</div>
+    <div>
+      <h2>Important: register for FYP in EVERY long trimester</h2>
+      <p>The Final Year Project (<b>UDPL3246</b>) is spread over <b>two trimesters</b>. You must register for this course <mark>ONCE in EACH LONG TRIMESTER</mark>.</p>
+      <div class="flow">
+        <div class="st"><b>FYP1</b>Register in the first long trimester.</div>
+        <div class="ar" aria-hidden="true">&rarr;</div>
+        <div class="st"><b>FYP2</b>Register again in the next long trimester.</div>
+      </div>
+      <div class="void">&#9888; If you do NOT register for FYP2, your previous FYP1 will be <u>VOID</u>.</div>
+      <p style="margin:16px 0 0;font-size:15px">Not sure about your registration? Check with your supervisor or the faculty before registration closes.</p>
+    </div>
+  </div>
+</div></section>
+
 <section id="journey"><div class="wrap">
   <div class="sec-h"><h2>Your FYP journey</h2></div>
   <ol class="steps" id="steps"></ol>
@@ -140,6 +176,7 @@ const CHECKLIST = [
   "Forms and declarations are signed and submitted"
 ];
 const FAQ = [
+  ["Do I need to register again for FYP2?", "Yes. FYP (UDPL3246) runs over two trimesters, and you must register for it ONCE in EACH LONG TRIMESTER. If you do not register for FYP2, your previous FYP1 will be void."],
   ["How often should I meet my supervisor?", "Agree a schedule at your first meeting. Meeting regularly, with a short update and clear questions each time, works best. Keep a log of every meeting."],
   ["What if I fall behind schedule?", "Tell your supervisor early. Problems are much easier to fix in week 4 than in week 12."],
   ["Can I change my topic?", "Usually yes, early on and with your supervisor's approval. Check the handbook for the deadline."],

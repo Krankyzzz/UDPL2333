@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UDPL2333 Transport Planning and Demand Analysis</title>
-<meta name="description" content="Lecture slides, tutorials, self-study materials and quizzes for UDPL2333 Transport Planning and Demand Analysis.">
+<meta name="description" content="Lecture slides, tutorials, self-study materials and the quiz for UDPL2333 Transport Planning and Demand Analysis.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚍</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,7 +92,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 <nav><div class="wrap">
   <a class="brand" href="#top">UDPL<span>2333</span></a>
   <a class="lnk" href="#materials">Materials</a>
-  <a class="lnk" href="#quizzes">Quizzes</a>
+  <a class="lnk" href="#quizzes">Quiz</a>
   <a class="lnk" href="#resources">Resources</a>
   <a class="lnk" href="#updates">Updates</a>
   <a class="lnk" href="#about">About</a>
@@ -104,7 +104,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 <header class="hero" id="top"><div class="wrap">
   <span class="code">UDPL2333</span>
   <h1>Transport Planning and Demand Analysis</h1>
-  <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and topic quizzes. Pick a station on the route below to jump to that topic.</p>
+  <p class="lead">Everything for the course in one place: lecture slides, tutorials, self-study materials and the quiz. Pick a station on the route below to jump to that topic.</p>
   <div class="facts" id="facts"></div>
   <div class="week" id="week" aria-live="polite" hidden></div>
   <div class="route" aria-label="Course topics"><ol id="route"></ol></div>
@@ -133,7 +133,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 </div></section>
 
 <section id="quizzes"><div class="wrap">
-  <div class="sec-h"><h2>Quizzes</h2></div>
+  <div class="sec-h"><h2>Quiz</h2></div>
   <div class="qgrid" id="quizList"></div>
 </div></section>
 
@@ -161,7 +161,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
     <div class="panel">
       <h3>Marks breakdown</h3>
       <div class="bar"><div class="a">Continuous 50%</div><div class="b">Final exam 50%</div></div>
-      <p style="margin:0;color:var(--muted);font-size:15px">Continuous assessment covers assignments, tests and quizzes.</p>
+      <p style="margin:0;color:var(--muted);font-size:15px">Continuous assessment covers assignments, tests and the quiz.</p>
     </div>
     <div class="panel">
       <h3>Pass requirements</h3>
@@ -210,7 +210,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
    To add a file: upload it to the /materials folder in your repo,
    then add { t:"Title", u:"materials/topic1-slides.pptx", s:"PPTX" } to a list.
    Leave u:"" and the item shows as a "Coming soon" placeholder.
-   Quiz links: paste your Google Form link into the quiz list.
+   The quiz (Google Form link and open/close times) is set up in the QUIZZES list further down.
    ============================================================ */
 const COURSE = {
   lecturer: "Khairul Rizuan bin Suliman",
@@ -236,32 +236,27 @@ const TOPICS = [
     pts:["Definition of urban transportation planning","A multimodal perspective","A changing society and its impact","Transportation and telecommunication","Intelligent transportation systems (ITS)","Planning framework and process"],
     slides:[{t:"Topic 1 lecture slides", u:"materials/topic1-slides.pptx", s:"PPTX"}],
     tut:[{t:"Topic 1 tutorial", u:"", s:"PDF"}],
-    self:[{t:"Topic 1 self-study notes", u:"", s:"PDF"}],
-    quiz:[{t:"Topic 1 quiz", u:""}] },
+    self:[{t:"Topic 1 self-study notes", u:"", s:"PDF"}] },
   { title:"Characteristics of Travel", clo:"CLO 1, 2", L:6, T:2,
     pts:["Temporal, spatial and modal distribution of trip making","Transportation from a systems perspective","Transportation system impacts","Land use–transportation interaction"],
     slides:[{t:"Topic 2 lecture slides", u:"", s:"PPTX"}],
     tut:[{t:"Topic 2 tutorial", u:"", s:"PDF"}],
-    self:[{t:"Topic 2 self-study notes", u:"", s:"PDF"}],
-    quiz:[{t:"Topic 2 quiz", u:""}] },
+    self:[{t:"Topic 2 self-study notes", u:"", s:"PDF"}] },
   { title:"Data Management and Use in Decision Making", clo:"CLO 2", L:6, T:2,
     pts:["Transportation planning database","Transportation system and user data","Community vision and goals"],
     slides:[{t:"Topic 3 lecture slides", u:"", s:"PPTX"}],
     tut:[{t:"Topic 3 tutorial", u:"", s:"PDF"}],
-    self:[{t:"Topic 3 self-study notes", u:"", s:"PDF"}],
-    quiz:[{t:"Topic 3 quiz", u:""}] },
+    self:[{t:"Topic 3 self-study notes", u:"", s:"PDF"}] },
   { title:"Demand Forecasting and Modeling", clo:"CLO 2, 3", L:9, T:2,
     pts:["Advanced travel behaviour analysis","Emerging mobility trends","Scenario planning and uncertainty analysis","Spatial analysis and GIS","Behavioural economics in demand modelling"],
     slides:[{t:"Topic 4 lecture slides", u:"", s:"PPTX"}],
     tut:[{t:"Topic 4 tutorial", u:"", s:"PDF"}],
-    self:[{t:"Topic 4 self-study notes", u:"", s:"PDF"}],
-    quiz:[{t:"Topic 4 quiz", u:""}] },
+    self:[{t:"Topic 4 self-study notes", u:"", s:"PDF"}] },
   { title:"Public Transport Planning", clo:"CLO 3", L:2, T:1,
     pts:["Transit network design and optimisation","Integration of emerging mobility services","User-centric design and accessibility","Fare structure and pricing strategies"],
     slides:[{t:"Topic 5 lecture slides", u:"", s:"PPTX"}],
     tut:[{t:"Topic 5 tutorial", u:"", s:"PDF"}],
-    self:[{t:"Topic 5 self-study notes", u:"", s:"PDF"}],
-    quiz:[{t:"Topic 5 quiz", u:""}] }
+    self:[{t:"Topic 5 self-study notes", u:"", s:"PDF"}] }
 ];
 
 const REFS_MAIN = [
@@ -286,13 +281,13 @@ const WEEKLY = {
     "Topic 2 starts: how, when and why people travel.",
     "Keep going with Topic 2 and try the tutorial questions before class.",
     "Topic 3: data is the backbone of good planning. Check the self-study notes.",
-    "Topic 3 continues. Quiz time: attempt it before the weekend.",
+    "Topic 3 continues. Check the quiz date in the Quiz section and start revising.",
     "Halfway there! Review Topics 1 to 3 and start preparing for the test.",
     "Topic 4 begins: demand forecasting and modelling.",
     "Topic 4 continues. Practise the modelling steps in the tutorial.",
     "Topic 4 wrap-up: look at GIS and scenario planning.",
     "Topic 5: public transport planning. Almost at the last station!",
-    "Revision week. Go through all the quizzes and tutorials.",
+    "Revision week. Go through all the tutorials and revise for the quiz.",
     "Final exam preparation. Good luck, you've got this!"
   ],
   before: "Classes haven't started yet. See you in Week 1!",
@@ -305,9 +300,9 @@ const ASSESSMENTS = [
   { name:"Test", due:"TBA", note:"",
     q:[{t:"Test paper / sample questions", u:"", s:"PDF"}],
     r:[{t:"Test marking scheme", u:"", s:"PDF"}] },
-  { name:"Quizzes", due:"See each topic", note:"Quiz links are inside each topic above.",
-    q:[{t:"Quiz question bank (optional)", u:"", s:"PDF"}],
-    r:[{t:"Quiz grading guide", u:"", s:"PDF"}] },
+  { name:"Quiz", due:"See the Quiz section above", note:"The quiz is taken online and opens at the scheduled time.",
+    q:[{t:"Quiz questions and answers (after the quiz)", u:"", s:"PDF"}],
+    r:[{t:"Quiz marking scheme", u:"", s:"PDF"}] },
   { name:"Final examination", due:"TBA", note:"",
     q:[{t:"Sample / past year paper", u:"", s:"PDF"}],
     r:[{t:"Marking scheme / answering guide", u:"", s:"PDF"}] }
@@ -353,20 +348,20 @@ const LIVE_FEEDS = [
    Upload pictures to a "gallery" folder in your repo (compress them to about 1600 px wide), then add one line each.
    Only img and t are required. Get the students' permission before showing their work. */
 const GALLERY = [
-  { img:"gallery/project1.jpg", t:"Student project 1" },
-  { img:"gallery/project2.jpg", t:"Student project 2" },
-  { img:"gallery/project3.jpg", t:"Student project 3" },
-  { img:"gallery/project4.jpg", t:"Student project 4" },
-  { img:"gallery/project5.jpg", t:"Student project 5" }
+  { img:"gallery/project1.JPG", t:"Student project 1" },
+  { img:"gallery/project2.JPG", t:"Student project 2" },
+  { img:"gallery/project3.JPG", t:"Student project 3" },
+  { img:"gallery/project4.JPG", t:"Student project 4" },
+  { img:"gallery/project5.JPG", t:"Student project 5" }
   // Optional extras per project: by:"Group 3", term:"2025 T2", d:"One-line description.", u:"https://link-to-report"
 ];
-/* --- Quizzes (Google Forms) ---
+/* --- Quiz (Google Form) ---
    The quiz button appears at "open" and disappears at "close", automatically.
    Times are Malaysia time: write them as YYYY-MM-DDTHH:MM:00+08:00 (24-hour clock).
    Leave close:"" if it should never close. Copy a whole { ... } block for another quiz. */
 const QUIZ_NOTE = "You must be signed in with your UTAR email to open this quiz. Sign in to Google with your UTAR email first. If your browser is signed in to a personal Gmail, switch accounts or use a private/incognito window.";
 const QUIZZES = [
-  { t:"Quiz 1", d:"Short quiz on the topics covered so far.",
+  { t:"Quiz", d:"Online quiz, part of your continuous assessment.",
     u:"https://forms.gle/8bM1Z2emKrWYWALYA",
     open:"2026-11-20T14:00:00+08:00",
     close:"2026-11-20T16:00:00+08:00" }
@@ -384,7 +379,7 @@ $("facts").innerHTML = [["Lecturer",COURSE.lecturer],["Offered",COURSE.trimester
 $("route").innerHTML = TOPICS.map((t,i) => `<li><a href="#topic${i+1}"><i></i>Topic ${i+1}</a></li>`).join("");
 
 // resource groups
-const GROUPS = [["slides","Lecture slides"],["tut","Tutorials"],["self","Self-study"],["quiz","Quizzes"]];
+const GROUPS = [["slides","Lecture slides"],["tut","Tutorials"],["self","Self-study"]];
 function item(r, k){
   if(!r.u) return `<li class="soon">${esc(r.t)}: coming soon</li>`;
   const ext = /^https?:/.test(r.u);
@@ -451,7 +446,7 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
 // quizzes: open and close automatically at the set times
 (function(){
   const box = $("quizList");
-  if(!QUIZZES.length){ box.innerHTML = '<p class="soon">No quizzes yet.</p>'; return; }
+  if(!QUIZZES.length){ box.innerHTML = '<p class="soon">No quiz scheduled yet.</p>'; return; }
   const T = v => v ? +new Date(v) : NaN;
   const fmt = v => new Date(v).toLocaleString("en-MY", {timeZone:"Asia/Kuala_Lumpur", weekday:"short", day:"numeric", month:"short", year:"numeric", hour:"numeric", minute:"2-digit"});
   const left = ms => { const s = Math.max(0, Math.floor(ms/1000)), d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60);
