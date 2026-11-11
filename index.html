@@ -86,6 +86,23 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 .qcard[data-s=open] .qs{background:var(--green-soft);color:var(--green)}
 .qtime{font-size:14.5px;color:var(--muted);margin:12px 0}
 .qcount{font:800 24px var(--head);margin:6px 0 16px}
+.lect{display:grid;grid-template-columns:minmax(200px,260px) 1fr;gap:36px;align-items:start;padding:32px}
+@media(max-width:760px){.lect{grid-template-columns:1fr;padding:24px}}
+.lph{position:relative;aspect-ratio:1;width:100%;max-width:260px;border-radius:22px;overflow:hidden;background:var(--green-soft);display:grid;place-items:center;box-shadow:10px 10px 0 -2px color-mix(in srgb,var(--green) 35%,transparent)}
+.lph span{font:800 56px var(--head);color:var(--green)}
+.lph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lname{font-size:clamp(26px,4vw,38px);font-weight:800;margin-bottom:6px}
+.lrole{color:var(--green);font-weight:600;margin:0 0 12px}
+.lect h4{margin:22px 0 10px;font:600 12px var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.edu{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.edu li{border-left:4px solid var(--green);padding-left:14px}
+.edu b{display:block;font-size:15.5px;line-height:1.35}
+.edu span{color:var(--muted);font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags span{background:var(--green-soft);color:var(--green);font:600 13.5px var(--body);padding:5px 13px;border-radius:999px}
+.consult{margin-top:24px;background:var(--amber-soft);border-radius:14px;padding:18px 20px}
+.consult b{display:block;font-size:17px;margin-bottom:4px}
+.consult p{margin:0;color:var(--muted);font-size:15px}
 </style>
 </head>
 <body>
@@ -96,6 +113,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
   <a class="lnk" href="#resources">Resources</a>
   <a class="lnk" href="#updates">Updates</a>
   <a class="lnk" href="#about">About</a>
+  <a class="lnk" href="#lecturer">Lecturer</a>
   <a class="lnk" href="#assessment">Assessment</a>
   <a class="lnk" href="#references">References</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
@@ -153,6 +171,11 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
     <div class="panel"><h3>Synopsis</h3><p id="syn" style="margin:0;color:var(--muted)"></p></div>
     <div class="panel"><h3>What you will be able to do</h3><div id="clos"></div></div>
   </div>
+</div></section>
+
+<section id="lecturer"><div class="wrap">
+  <div class="sec-h"><h2>Meet your lecturer</h2></div>
+  <div class="panel lect" id="lect"></div>
 </div></section>
 
 <section id="assessment"><div class="wrap">
@@ -213,7 +236,7 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
    The quiz (Google Form link and open/close times) is set up in the QUIZZES list further down.
    ============================================================ */
 const COURSE = {
-  lecturer: "Khairul Rizuan bin Suliman",
+  lecturer: "Gs. Ts. Khairul Rizuan bin Suliman",
   trimester: "Trimester 2, Year 2",
   credit: "3 credit hours",
   type: "Major course",
@@ -366,6 +389,22 @@ const QUIZZES = [
     open:"2026-11-20T14:00:00+08:00",
     close:"2026-11-20T16:00:00+08:00" }
 ];
+/* --- Lecturer profile. Photo: put it in the "images" folder of your repo as lecturer.jpg. ---
+   teams: leave "" to use the standard Teams chat link built from your email, or paste your own Teams link. */
+const LECTURER = {
+  name: "Gs. Ts. Khairul Rizuan Bin Suliman",
+  role: "Lecturer, Logistics and International Shipping",
+  org: "Universiti Tunku Abdul Rahman (UTAR)",
+  photo: "images/lecturer.jpg",
+  bio: "Lecturer for Logistics and International Shipping at Universiti Tunku Abdul Rahman (UTAR). He teaches UDPL2333 Transport Planning and Demand Analysis.",
+  education: [
+    ["Diploma and Bachelor's Degree in Industrial Logistics", "Universiti Kuala Lumpur (UniKL), Malaysian Institute of Industrial Technology"],
+    ["Master of Science in Transportation Planning", "Universiti Teknologi Malaysia (UTM)"],
+    ["International Diploma in Supply Chain Management (professional certification)", "ITC, Geneva, Switzerland"]
+  ],
+  interests: ["Sustainable transportation", "Transportation modelling", "GIS"],
+  teams: ""
+};
 /* ===================== end of editable section ===================== */
 
 const $ = id => document.getElementById(id);
@@ -442,6 +481,32 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
     <div class="g" data-k="qn"><h4>Questions</h4><ul>${a.q.map(r => item(r,"qn")).join("")}</ul></div>
     <div class="g" data-k="rub"><h4>Marking rubric</h4><ul>${a.r.map(r => item(r,"rub")).join("")}</ul></div>
   </div></div>`).join("");
+
+// lecturer profile
+(function(){
+  const L = LECTURER, email = COURSE.contact;
+  const initials = L.name.replace(/\b(Gs|Ts|Dr|Prof)\.?\s/gi, "").split(/\s+/).filter(w => !/^(bin|binti|bte)$/i.test(w)).slice(0,2).map(w => w[0]).join("").toUpperCase();
+  const teams = L.teams || "https://teams.microsoft.com/l/chat/0/0?users=" + encodeURIComponent(email);
+  $("lect").innerHTML = `
+    <div class="lph"><span>${esc(initials)}</span>${L.photo ? `<img src="${esc(L.photo)}" alt="Photo of ${esc(L.name)}" loading="lazy" onerror="this.remove()">` : ""}</div>
+    <div>
+      <h3 class="lname">${esc(L.name)}</h3>
+      <p class="lrole">${esc(L.role)}, ${esc(L.org)}</p>
+      <p style="margin:0;color:var(--muted)">${esc(L.bio)}</p>
+      <h4>Education and qualifications</h4>
+      <ul class="edu">${L.education.map(([a,b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("")}</ul>
+      <h4>Research interests</h4>
+      <div class="tags">${L.interests.map(t => `<span>${esc(t)}</span>`).join("")}</div>
+      <div class="consult">
+        <b>Consultation sessions</b>
+        <p>Email me or contact me on Microsoft Teams to arrange a time.</p>
+        <div class="btns" style="margin-top:14px">
+          <a class="cta" style="margin:0" href="mailto:${esc(email)}?subject=${encodeURIComponent("UDPL2333 consultation request")}">Email me</a>
+          <a class="cta alt" style="margin:0" href="${esc(teams)}" target="_blank" rel="noopener">Message on Microsoft Teams</a>
+        </div>
+      </div>
+    </div>`;
+})();
 
 // quizzes: open and close automatically at the set times
 (function(){
