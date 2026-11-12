@@ -103,11 +103,14 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 .consult{margin-top:24px;background:var(--amber-soft);border-radius:14px;padding:18px 20px}
 .consult b{display:block;font-size:17px;margin-bottom:4px}
 .consult p{margin:0;color:var(--muted);font-size:15px}
+.brand .logo{height:44px;width:auto;display:block}
+.brand:has(.logo)::before{display:none}
+:root[data-theme="dark"] .brand .logo{filter:invert(1)}
 </style>
 </head>
 <body>
 <nav><div class="wrap">
-  <a class="brand" href="#top">UDPL<span>2333</span></a>
+  <a class="brand" href="#top"><img class="logo" src="images/logo.png" alt="KRS logo: Khairul Rizuan Suliman" onerror="this.remove()">UDPL<span>2333</span></a>
   <a class="lnk" href="#materials">Materials</a>
   <a class="lnk" href="#quizzes">Quiz</a>
   <a class="lnk" href="#resources">Resources</a>
@@ -319,7 +322,7 @@ const WEEKLY = {
 const ASSESSMENTS = [
   { name:"Assignment", due:"TBA", note:"",
     q:[{t:"Assignment questions", u:"", s:"PDF"}],
-    r:[{t:"Assignment marking rubric", u:"", s:"PDF"}] },
+    r:[{t:"Assignment marking rubric", u:"materials/Assignment_Rubric.pdf", s:"PDF"}] },
   { name:"Test", due:"TBA", note:"",
     q:[{t:"Test paper / sample questions", u:"", s:"PDF"}],
     r:[{t:"Test marking scheme", u:"", s:"PDF"}] },
@@ -398,8 +401,8 @@ const LECTURER = {
   photo: "images/lecturer.jpg",
   bio: "Lecturer for Logistics and International Shipping at Universiti Tunku Abdul Rahman (UTAR). He teaches UDPL2333 Transport Planning and Demand Analysis.",
   education: [
-    ["Master of Science (Transportation Planning)", "Universiti Teknologi Malaysia (UTM)"],
-    ["Bachelor of Industrial Logistics (Hons)", "Universiti Kuala Lumpur (UniKL), Malaysian Institute of Industrial Technology"],
+    ["Diploma and Bachelor's Degree in Industrial Logistics", "Universiti Kuala Lumpur (UniKL), Malaysian Institute of Industrial Technology"],
+    ["Master of Science in Transportation Planning", "Universiti Teknologi Malaysia (UTM)"],
     ["International Diploma in Supply Chain Management (professional certification)", "ITC, Geneva, Switzerland"]
   ],
   interests: ["Sustainable transportation", "Transportation modelling", "GIS"],

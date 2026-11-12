@@ -29,11 +29,14 @@
 .alert .void u{text-decoration-thickness:3px;text-underline-offset:4px}
 @media(max-width:640px){.alert{grid-template-columns:1fr;padding:22px 20px}.alert .ar{display:none}}
 @media(prefers-reduced-motion:reduce){.alert-i{animation:none}}
+.brand .logo{height:44px;width:auto;display:block}
+.brand:has(.logo)::before{display:none}
+:root[data-theme="dark"] .brand .logo{filter:invert(1)}
 </style>
 </head>
 <body>
 <nav><div class="wrap">
-  <a class="brand" href="fyp.html#top">FYP<span>.</span></a>
+  <a class="brand" href="fyp.html#top"><img class="logo" src="images/logo.png" alt="KRS logo: Khairul Rizuan Suliman" onerror="this.remove()">FYP<span>.</span></a>
   <a class="lnk" href="#journey">Journey</a>
   <a class="lnk" href="#resources">Resources</a>
   <a class="lnk" href="#dates">Dates</a>
