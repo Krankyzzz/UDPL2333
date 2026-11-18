@@ -106,11 +106,14 @@ dialog#lb::backdrop{background:rgba(0,0,0,.78)}
 .brand .logo{height:44px;width:auto;display:block}
 .brand:has(.logo)::before{display:none}
 :root[data-theme="dark"] .brand .logo{filter:invert(1)}
-.gframe{border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#6ec1f0}
-.gframe iframe{display:block;width:100%;height:clamp(700px,92vh,780px);border:0}
-.gframe:fullscreen iframe{height:100vh}
 a.gchip{text-decoration:none;display:inline-block}
-@media(max-width:760px){.gframe iframe{height:1050px}}
+.gcard{display:flex;flex-wrap:wrap;gap:22px 30px;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#5db6ee,#d9f3ff);color:#2a2438;border:4px solid #2a2438;border-radius:22px;padding:28px 32px;box-shadow:0 7px 0 #2a2438}
+.gcard>div{flex:1 1 360px}
+.gcard h3{font-size:clamp(24px,3.6vw,34px);font-weight:800;margin:0 0 10px;color:#2a2438}
+.gcard p{margin:0 0 8px;max-width:64ch;font-size:16px}
+.gcard .gnote{font-size:14px;opacity:.8}
+.gplay{flex:none;background:#ff9f1c;color:#2a2438;text-decoration:none;font:800 20px var(--head);padding:14px 30px;border:3px solid #2a2438;border-radius:16px;box-shadow:0 5px 0 #2a2438;transition:transform .1s,box-shadow .1s}
+.gplay:hover{transform:translateY(2px);box-shadow:0 3px 0 #2a2438}
 </style>
 </head>
 <body>
@@ -119,12 +122,12 @@ a.gchip{text-decoration:none;display:inline-block}
   <a class="lnk" href="#materials">Materials</a>
   <a class="lnk" href="#quizzes">Quiz</a>
   <a class="lnk" href="#resources">Resources</a>
-  <a class="lnk" href="#game">Game</a>
   <a class="lnk" href="#updates">Updates</a>
   <a class="lnk" href="#about">About</a>
   <a class="lnk" href="#lecturer">Lecturer</a>
   <a class="lnk" href="#assessment">Assessment</a>
   <a class="lnk" href="#references">References</a>
+  <a class="lnk" href="#game">Game</a>
   <button id="theme" aria-label="Toggle dark mode">🌙</button>
 </div></nav>
 
@@ -167,15 +170,6 @@ a.gchip{text-decoration:none;display:inline-block}
 <section id="resources"><div class="wrap">
   <div class="sec-h"><h2>Learning resources</h2></div>
   <div id="learnList"></div>
-</div></section>
-
-<section id="game"><div class="wrap">
-  <div class="sec-h">
-    <h2>Practice game: Hub Rush</h2>
-    <div class="btns"><button class="gchip" id="gfs" type="button">Full screen</button><a class="gchip" href="hub-rush.html" target="_blank" rel="noopener">Open in new tab</a></div>
-  </div>
-  <p style="color:var(--muted);max-width:70ch;margin:-8px 0 18px">Run a transport hub yourself in Manual mode, or let the transport management system (TMS) run it on Auto, then throw in disruptions such as a train delay or a bay breakdown and compare the scores. It relates to the intelligent transportation systems (ITS) ideas in Topic 1: sense, model, decide, act. It plays best on a laptop or in full screen.</p>
-  <div class="gframe" id="gframe"><iframe src="hub-rush.html" title="Hub Rush: TMS digital twin game" loading="lazy" allow="fullscreen; autoplay"></iframe></div>
 </div></section>
 
 <section id="updates"><div class="wrap">
@@ -232,6 +226,17 @@ a.gchip{text-decoration:none;display:inline-block}
   <div class="grid2">
     <div class="panel"><h3>Main</h3><ol class="refs" id="refMain"></ol></div>
     <div class="panel"><h3>Additional</h3><ol class="refs" id="refMore" start="3"></ol></div>
+  </div>
+</div></section>
+<section id="game"><div class="wrap">
+  <div class="sec-h"><h2>Practice game</h2></div>
+  <div class="gcard">
+    <div>
+      <h3>Hub Rush: you run the transport management system</h3>
+      <p>Run a transport hub yourself in Manual mode, or let the transport management system (TMS) run it on Auto. Then throw in disruptions such as a train delay or a bay breakdown and compare the scores. It relates to the intelligent transportation systems (ITS) ideas in Topic 1: sense, model, decide, act.</p>
+      <p class="gnote">Opens in a new page. Works best on a laptop, and you need an internet connection.</p>
+    </div>
+    <a class="gplay" href="hub-rush.html" target="_blank" rel="noopener">Play Hub Rush &rarr;</a>
   </div>
 </div></section>
 </main>
@@ -499,10 +504,6 @@ $("assessList").innerHTML = ASSESSMENTS.map(a => `
     <div class="g" data-k="qn"><h4>Questions</h4><ul>${a.q.map(r => item(r,"qn")).join("")}</ul></div>
     <div class="g" data-k="rub"><h4>Marking rubric</h4><ul>${a.r.map(r => item(r,"rub")).join("")}</ul></div>
   </div></div>`).join("");
-
-// game: full screen button (falls back to opening the game in a new tab)
-$("gfs").onclick = () => { const f = $("gframe");
-  if(f.requestFullscreen) f.requestFullscreen().catch(() => window.open("hub-rush.html", "_blank")); else window.open("hub-rush.html", "_blank"); };
 
 // lecturer profile
 (function(){
